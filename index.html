@@ -8,192 +8,225 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Tajawal', sans-serif; background: #0f1923; color: #e8edf2; min-height: 100vh; direction: rtl; }
+  body { font-family: 'Tajawal', sans-serif; background: #fdfafb; color: #2d181b; min-height: 100vh; direction: rtl; }
 
   #login-screen {
     display: flex; align-items: center; justify-content: center;
-    min-height: 100vh; background: #0f1923;
+    min-height: 100vh; background: #fdfafb;
     position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100;
   }
   .login-card {
-    background: #182330; border: 1px solid #1e3248;
-    border-radius: 16px; padding: 3rem 2.5rem; width: 380px; text-align: center;
+    background: #ffffff; border: 1px solid #f5e3e5;
+    border-radius: 20px; padding: 3rem 2.5rem; width: 380px; text-align: center;
+    box-shadow: 0 10px 30px rgba(122, 28, 36, 0.05);
   }
   .logo-box { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 2rem; }
   .logo-img { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; }
-  .logo-text { font-size: 28px; font-weight: 800; color: #4ea8de; letter-spacing: -0.5px; }
-  .login-label { font-size: 14px; color: #8899aa; margin-bottom: 8px; text-align: right; }
+  .logo-text { font-size: 28px; font-weight: 800; color: #7a1c24; letter-spacing: -0.5px; }
+  .login-label { font-size: 14px; color: #8c7376; margin-bottom: 8px; text-align: right; }
   .pin-input {
     width: 100%; padding: 12px 16px; border-radius: 10px;
-    border: 1px solid #1e3248; background: #0f1923; color: #e8edf2;
+    border: 1px solid #e8cbd0; background: #fdfafb; color: #2d181b;
     font-family: 'Tajawal', sans-serif; font-size: 18px; text-align: center;
     letter-spacing: 4px; margin-bottom: 1.5rem; outline: none;
   }
-  .pin-input:focus { border-color: #4ea8de; }
+  .pin-input:focus { border-color: #7a1c24; box-shadow: 0 0 0 3px rgba(122, 28, 36, 0.1); }
   .btn-login {
-    width: 100%; padding: 12px; background: #4ea8de; color: #0f1923;
+    width: 100%; padding: 12px; background: #7a1c24; color: #ffffff;
     border: none; border-radius: 10px; font-family: 'Tajawal', sans-serif;
-    font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+    font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
   }
-  .btn-login:hover { background: #6bb8e6; }
+  .btn-login:hover { background: #91252e; transform: translateY(-1px); }
   .login-error { color: #e05555; font-size: 13px; margin-top: 10px; display: none; }
 
   #app { display: none; flex-direction: column; min-height: 100vh; }
 
   .topbar {
-    background: #182330; border-bottom: 1px solid #1e3248;
+    background: #ffffff; border-bottom: 1px solid #f5e3e5;
     padding: 0 2rem; height: 64px; display: flex; align-items: center;
     justify-content: space-between; position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 4px 15px rgba(122, 28, 36, 0.02);
   }
   .topbar-brand { display: flex; align-items: center; gap: 10px; }
   .topbar-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-  .topbar-title { font-size: 20px; font-weight: 800; color: #4ea8de; }
-  .sync-indicator { font-size: 12px; color: #8899aa; display: flex; align-items: center; gap: 6px; }
+  .topbar-title { font-size: 20px; font-weight: 800; color: #7a1c24; }
+  .sync-indicator { font-size: 12px; color: #8c7376; display: flex; align-items: center; gap: 6px; cursor: pointer; }
   .btn-logout {
-    background: transparent; border: 1px solid #1e3248; color: #8899aa;
+    background: transparent; border: 1px solid #e8cbd0; color: #8c7376;
     padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
     font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
   }
-  .btn-logout:hover { border-color: #e05555; color: #e05555; }
+  .btn-logout:hover { border-color: #e05555; color: #e05555; background: #fff5f5; }
 
   .main { padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 
   #dashboard { display: block; }
   .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
   .dash-card {
-    background: #182330; border: 1px solid #1e3248; border-radius: 16px;
+    background: #ffffff; border: 1px solid #f5e3e5; border-radius: 16px;
     padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center;
+    box-shadow: 0 4px 12px rgba(122, 28, 36, 0.02);
   }
-  .dash-card:hover { border-color: #4ea8de; transform: translateY(-2px); }
+  .dash-card:hover { border-color: #7a1c24; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(122, 28, 36, 0.06); }
   .dash-icon { font-size: 36px; margin-bottom: 12px; }
-  .dash-card-title { font-size: 17px; font-weight: 700; color: #e8edf2; margin-bottom: 4px; }
-  .dash-card-sub { font-size: 13px; color: #8899aa; }
-  .dash-card-count { margin-top: 10px; font-size: 22px; font-weight: 800; color: #4ea8de; }
+  .dash-card-title { font-size: 17px; font-weight: 700; color: #2d181b; margin-bottom: 4px; }
+  .dash-card-sub { font-size: 13px; color: #8c7376; }
+  .dash-card-count { margin-top: 10px; font-size: 22px; font-weight: 800; color: #7a1c24; }
+
+  .warning-banner {
+    background: #fdf2f4; border: 1px solid #f0ccd3; border-radius: 12px;
+    padding: 14px 20px; margin-bottom: 1.5rem; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px; font-size: 13.5px; color: #7a1c24;
+  }
+  .warning-banner .btn-setup-cloud {
+    background: #7a1c24; color: #ffffff; font-weight: 700; padding: 6px 14px;
+    border: none; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
+    transition: background 0.2s;
+  }
+  .warning-banner .btn-setup-cloud:hover { background: #91252e; }
 
   .section { display: none; }
   .section.active { display: block; }
   .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
   .btn-back {
-    background: transparent; border: 1px solid #1e3248; color: #8899aa;
+    background: transparent; border: 1px solid #e8cbd0; color: #8c7376;
     padding: 8px 14px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
-    font-size: 14px; display: flex; align-items: center; gap: 6px;
+    font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
   }
-  .btn-back:hover { border-color: #4ea8de; color: #4ea8de; }
-  .section-title { font-size: 22px; font-weight: 800; color: #e8edf2; }
+  .btn-back:hover { border-color: #7a1c24; color: #7a1c24; background: #fdf2f4; }
+  .section-title { font-size: 22px; font-weight: 800; color: #2d181b; }
 
   .upload-box {
-    background: #182330; border: 1.5px dashed #1e3248; border-radius: 14px;
+    background: #ffffff; border: 1.5px dashed #e8cbd0; border-radius: 14px;
     padding: 2rem; margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(122, 28, 36, 0.01);
   }
   .upload-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; }
   .tab-btn {
     flex: 1; padding: 10px; border-radius: 8px; font-family: 'Tajawal', sans-serif;
-    font-size: 14px; cursor: pointer; border: 1px solid #1e3248; background: transparent;
-    color: #8899aa; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-size: 14px; cursor: pointer; border: 1px solid #e8cbd0; background: transparent;
+    color: #8c7376; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .tab-btn.active { background: #4ea8de; color: #0f1923; border-color: #4ea8de; font-weight: 700; }
+  .tab-btn.active { background: #7a1c24; color: #ffffff; border-color: #7a1c24; font-weight: 700; }
   .upload-pane { display: none; }
   .upload-pane.active { display: block; }
   .file-drop {
-    border: 1.5px dashed #1e3248; border-radius: 10px; padding: 2rem; text-align: center;
-    color: #8899aa; cursor: pointer; transition: border-color 0.2s;
+    border: 1.5px dashed #e8cbd0; border-radius: 10px; padding: 2rem; text-align: center;
+    color: #8c7376; cursor: pointer; transition: all 0.2s; background: #fffafb;
   }
-  .file-drop:hover { border-color: #4ea8de; }
+  .file-drop:hover { border-color: #7a1c24; background: #fdf2f4; color: #7a1c24; }
   .file-drop i { font-size: 32px; display: block; margin-bottom: 8px; }
   .url-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .url-input {
-    flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 8px; border: 1px solid #1e3248;
-    background: #0f1923; color: #e8edf2; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+    flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 8px; border: 1px solid #e8cbd0;
+    background: #fdfafb; color: #2d181b; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+    transition: all 0.2s;
   }
-  .url-input:focus { border-color: #4ea8de; }
+  .url-input:focus { border-color: #7a1c24; background: #ffffff; }
   .url-name-input {
-    padding: 10px 14px; width: 180px; border-radius: 8px; border: 1px solid #1e3248;
-    background: #0f1923; color: #e8edf2; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+    padding: 10px 14px; width: 180px; border-radius: 8px; border: 1px solid #e8cbd0;
+    background: #fdfafb; color: #2d181b; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+    transition: all 0.2s;
   }
+  .url-name-input:focus { border-color: #7a1c24; background: #ffffff; }
   .btn-add {
-    padding: 10px 18px; background: #4ea8de; color: #0f1923; border: none;
+    padding: 10px 18px; background: #7a1c24; color: #ffffff; border: none;
     border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 14px;
-    font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.2s;
+    font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s;
     display: flex; align-items: center; gap: 6px;
   }
-  .btn-add:hover { background: #6bb8e6; }
-  .btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-add:hover { background: #91252e; }
   .hidden-file { display: none; }
 
   .files-list { display: flex; flex-direction: column; gap: 10px; }
   .file-item {
-    background: #182330; border: 1px solid #1e3248; border-radius: 10px;
+    background: #ffffff; border: 1px solid #f5e3e5; border-radius: 10px;
     padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 2px 6px rgba(122, 28, 36, 0.01);
   }
-  .file-item-icon { font-size: 22px; color: #4ea8de; flex-shrink: 0; }
+  .file-item-icon { font-size: 22px; color: #7a1c24; flex-shrink: 0; }
   .file-item-info { flex: 1; min-width: 0; }
-  .file-item-name { font-size: 14px; font-weight: 600; color: #e8edf2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .file-item-meta { font-size: 12px; color: #8899aa; margin-top: 2px; }
-  .status-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; }
-  .tag-url { background: #1a3a2a; color: #4ade80; }
-  .tag-file { background: #1e2a3a; color: #60a5fa; }
-  .btn-open { padding: 6px 12px; border-radius: 6px; border: 1px solid #1e3248; background: transparent; color: #4ea8de; font-family: 'Tajawal', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
-  .btn-open:hover { background: #1e3248; }
+  .file-item-name { font-size: 14px; font-weight: 600; color: #2d181b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-item-meta { font-size: 12px; color: #8c7376; margin-top: 2px; }
+  .status-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .tag-url { background: #fdf2f4; color: #7a1c24; border: 1px solid #f0ccd3; }
+  .tag-file { background: #fff5f5; color: #7a1c24; border: 1px solid #f5e3e5; }
+  .btn-open { padding: 6px 12px; border-radius: 6px; border: 1px solid #e8cbd0; background: transparent; color: #7a1c24; font-family: 'Tajawal', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
+  .btn-open:hover { background: #fdf2f4; border-color: #7a1c24; }
   .btn-del { padding: 6px 10px; border-radius: 6px; border: 1px solid #e05555; background: transparent; color: #e05555; cursor: pointer; font-size: 14px; transition: all 0.2s; flex-shrink: 0; }
   .btn-del:hover { background: #e05555; color: white; }
 
-  .empty-state { text-align: center; padding: 3rem; color: #8899aa; }
+  .empty-state { text-align: center; padding: 3rem; color: #8c7376; }
   .empty-state i { font-size: 40px; display: block; margin-bottom: 10px; }
 
   .sheet-banner {
-    background: #182330; border: 1px solid #1e5c2a; border-radius: 12px;
+    background: #ffffff; border: 1px solid #e8cbd0; border-radius: 12px;
     padding: 12px 16px; margin-bottom: 1.5rem; display: flex; align-items: center;
-    gap: 10px; font-size: 13px; color: #4ade80;
+    gap: 10px; font-size: 13px; color: #7a1c24;
   }
   .sheet-banner i { font-size: 18px; flex-shrink: 0; }
 
   .loading-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(15,25,35,0.85); z-index: 200;
+    background: rgba(253, 250, 251, 0.9); z-index: 200;
     display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
   }
   .loading-overlay.show { display: flex; }
   .spinner {
-    width: 40px; height: 40px; border: 3px solid #1e3248;
-    border-top-color: #4ea8de; border-radius: 50%; animation: spin 0.8s linear infinite;
+    width: 40px; height: 40px; border: 3px solid #f5e3e5;
+    border-top-color: #7a1c24; border-radius: 50%; animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 14px; color: #8899aa; }
+  .loading-text { font-size: 14px; color: #8c7376; }
 
   .notif {
     position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-    background: #1a3a2a; border: 1px solid #4ade80; color: #4ade80;
+    background: #ffffff; border: 1.5px solid #7a1c24; color: #7a1c24;
     padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600;
     z-index: 999; display: none; white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(122, 28, 36, 0.1);
   }
-  .notif.err { background: #3a1a1a; border-color: #e05555; color: #e05555; }
+  .notif.err { background: #fff5f5; border-color: #e05555; color: #e05555; }
 
-  /* CUSTOM MODAL CSS */
   .custom-modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(10, 15, 20, 0.8); display: flex; align-items: center;
+    background: rgba(45, 24, 27, 0.4); display: flex; align-items: center;
     justify-content: center; z-index: 1000; opacity: 0; pointer-events: none;
     transition: opacity 0.2s ease-in-out;
   }
   .custom-modal.show { opacity: 1; pointer-events: auto; }
   .modal-content {
-    background: #182330; border: 1px solid #1e3248; border-radius: 16px;
-    padding: 2rem; max-width: 450px; width: 90%; text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: #ffffff; border: 1px solid #f5e3e5; border-radius: 20px;
+    padding: 2.5rem 2rem; max-width: 500px; width: 90%; text-align: center;
+    box-shadow: 0 15px 40px rgba(122, 28, 36, 0.08);
+    max-height: 85vh; overflow-y: auto;
   }
-  .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 1rem; color: #e8edf2; }
-  .modal-text { font-size: 14px; color: #8899aa; margin-bottom: 1.5rem; line-height: 1.6; }
-  .modal-buttons { display: flex; justify-content: center; gap: 12px; }
+  .modal-title { font-size: 19px; font-weight: 800; margin-bottom: 1rem; color: #7a1c24; }
+  .modal-text { font-size: 14px; color: #614d50; margin-bottom: 1.5rem; line-height: 1.6; text-align: right; }
+  .modal-buttons { display: flex; justify-content: center; gap: 12px; margin-top: 1.5rem; }
   .btn-modal-confirm {
     background: #e05555; color: white; border: none; padding: 10px 20px;
     border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: 700;
+    transition: all 0.2s;
   }
   .btn-modal-cancel {
-    background: #1e3248; color: #e8edf2; border: 1px solid #2e435a; padding: 10px 20px;
+    background: #fdf2f4; color: #7a1c24; border: 1px solid #f0ccd3; padding: 10px 20px;
     border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s;
   }
-  .btn-modal-confirm:hover { background: #f06666; }
-  .btn-modal-cancel:hover { background: #263e58; }
+  .btn-modal-confirm:hover { background: #f06666; transform: translateY(-1px); }
+  .btn-modal-cancel:hover { background: #fff5f5; transform: translateY(-1px); }
+
+  .db-settings-textarea {
+    width: 100%; height: 140px; background: #fdfafb; border: 1px solid #e8cbd0;
+    border-radius: 8px; color: #7a1c24; font-family: monospace; padding: 12px;
+    font-size: 12px; outline: none; direction: ltr; text-align: left; margin-bottom: 12px;
+  }
+  .db-settings-textarea:focus { border-color: #7a1c24; background: #ffffff; }
+  .badge {
+    background: #7a1c24; color: #ffffff; padding: 2px 6px; border-radius: 4px;
+    font-size: 11px; font-weight: bold; margin-right: 4px;
+  }
 </style>
 </head>
 <body>
@@ -216,6 +249,35 @@
   </div>
 </div>
 
+<!-- FIREBASE SETUP SETTINGS MODAL -->
+<div id="settings-modal" class="custom-modal">
+  <div class="modal-content">
+    <div class="modal-title" style="color: #7a1c24;"><i class="ti ti-settings"></i> إعدادات الربط السحابي (Firebase)</div>
+    <div class="modal-text">
+      <p style="margin-bottom: 10px; font-weight: bold; color: #2d181b;">خطوات تفعيل المزامنة الحقيقية بين أي جهازين مجاناً:</p>
+      <ol style="padding-right: 20px; margin-bottom: 15px; font-size: 13px;">
+        <item style="display: block; margin-bottom: 6px;">1. انتقل لموقع <a href="https://console.firebase.google.com/" target="_blank" style="color: #7a1c24; text-decoration: underline;">Firebase Console</a> وأنشئ مشروعاً مجانياً جديداً.</item>
+        <item style="display: block; margin-bottom: 6px;">2. أضف تطبيق ويب (Web App) بالضغط على أيقونة <code style="color: #7a1c24;">&lt;/&gt;</code>.</item>
+        <item style="display: block; margin-bottom: 6px;">3. انسخ كود الـ <code style="color: #7a1c24;">firebaseConfig</code> بالكامل (الملف النصي بصيغة JSON).</item>
+        <item style="display: block; margin-bottom: 6px;">4. قم بتفعيل <strong style="color: #2d181b;">Cloud Firestore Database</strong> من القائمة الجانبية واجعل القوانين العامة (Rules) مفتوحة للقراءة والكتابة للجميع.</item>
+      </ol>
+      <p style="margin-bottom: 8px; font-size: 12px; color: #8c7376;">الصق كود الـ Config هنا (بصيغة كائن JSON):</p>
+      <textarea id="db-config-input" class="db-settings-textarea" placeholder='{
+  "apiKey": "YOUR_API_KEY",
+  "authDomain": "YOUR_PROJECT.firebaseapp.com",
+  "projectId": "YOUR_PROJECT_ID",
+  "storageBucket": "YOUR_PROJECT.appspot.com",
+  "messagingSenderId": "...",
+  "appId": "..."
+}'></textarea>
+    </div>
+    <div class="modal-buttons">
+      <button class="btn-modal-confirm" style="background: #7a1c24; color: #ffffff;" onclick="saveCustomCloudConfig()">حفظ وتفعيل الاتصال</button>
+      <button class="btn-modal-cancel" onclick="closeSettingsModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
@@ -223,7 +285,7 @@
       <img src="https://pbs.twimg.com/profile_images/1573906872956063745/3LnHPkhq_400x400.png" class="logo-img" alt="فرقان">
       <span class="logo-text">فُرقان</span>
     </div>
-    <p style="font-size:14px;color:#8899aa;margin-bottom:1.5rem;">منصة القياس والمتابعة</p>
+    <p style="font-size:14px;color:#8c7376;margin-bottom:1.5rem;">منصة القياس والمتابعة</p>
     <div class="login-label">الرقم السري</div>
     <input type="password" id="pin-field" class="pin-input" maxlength="6" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="btn-login" onclick="doLogin()">دخول</button>
@@ -239,17 +301,26 @@
       <span class="topbar-title">فُرقان — منصة القياس</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
-      <span class="sync-indicator" id="sync-status">
-        <i class="ti ti-circle-dot" style="color:#e05555; animation: pulse 1.5s infinite;"></i> جاري التحميل...
+      <span class="sync-indicator" id="sync-status" onclick="openSettingsModal()">
+        <i class="ti ti-circle-dot" style="color:#e05555; animation: pulse 1.5s infinite;"></i> جاري التحقق...
       </span>
       <button class="btn-logout" onclick="logout()"><i class="ti ti-logout"></i> خروج</button>
     </div>
   </div>
 
   <div class="main">
+    <!-- CLOUD SETUP WARNING BANNER -->
+    <div id="setup-cloud-banner" class="warning-banner" style="display: none;">
+      <div>
+        <i class="ti ti-alert-triangle" style="font-size: 18px; vertical-align: middle;"></i>
+        <span>أنت تعمل حالياً في <strong>الوضع المحلي اللامركزي (حفظ على جهازك فقط)</strong>. لتظهر الملفات لأي شخص آخر يفتح الرابط، يجب ربط حساب سحابي.</span>
+      </div>
+      <button class="btn-setup-cloud" onclick="openSettingsModal()"><i class="ti ti-cloud-plus"></i> تفعيل المزامنة</button>
+    </div>
+
     <!-- DASHBOARD -->
     <div id="dashboard">
-      <p style="font-size:14px;color:#8899aa;margin-bottom:1.5rem;">مرحباً — اختر القسم المطلوب لتبدأ المزامنة الحية</p>
+      <p style="font-size:14px;color:#8c7376;margin-bottom:1.5rem;">مرحباً — اختر القسم المطلوب لتبدأ المزامنة الحية</p>
 
       <div class="sheet-banner">
         <i class="ti ti-cloud-check"></i>
@@ -324,19 +395,34 @@
   import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  // Safe Config Parser
+  // Safe Config Parser - looks for environment injection OR saved config in localStorage
   const appId = typeof __app_id !== 'undefined' ? __app_id : 'furqan-measuring-platform-realtime';
   let firebaseConfig = null;
   let useLocalFallback = false;
 
+  // 1. Try to fetch platform injected Firebase first
   try {
     if (typeof __firebase_config !== 'undefined' && __firebase_config) {
       firebaseConfig = JSON.parse(__firebase_config);
-    } else {
-      useLocalFallback = true;
     }
   } catch (e) {
-    console.warn("Firebase configuration not available, using local mode fallback.", e);
+    console.warn("No platform injected firebase config.");
+  }
+
+  // 2. Try to fetch user custom Firebase config from LocalStorage if not injected
+  if (!firebaseConfig) {
+    const customConfigStr = localStorage.getItem("furqan_custom_firebase");
+    if (customConfigStr) {
+      try {
+        firebaseConfig = JSON.parse(customConfigStr);
+      } catch (e) {
+        console.error("Invalid saved Firebase config in localStorage.");
+      }
+    }
+  }
+
+  // If no Firebase config found, fallback to local storage mode
+  if (!firebaseConfig) {
     useLocalFallback = true;
   }
 
@@ -358,6 +444,9 @@
   window.deleteItem = deleteItem;
   window.downloadFile = downloadFile;
   window.closeConfirmModal = closeConfirmModal;
+  window.openSettingsModal = openSettingsModal;
+  window.closeSettingsModal = closeSettingsModal;
+  window.saveCustomCloudConfig = saveCustomCloudConfig;
 
   // Initialize Firebase if config exists
   let db = null;
@@ -387,7 +476,7 @@
       loadLocalData();
     }
   } else {
-    // Immediate Local Setup
+    // Immediate Local Setup Fallback
     setTimeout(() => {
       updateSyncStatus(false);
       loadLocalData();
@@ -402,7 +491,7 @@
         await signInAnonymously(auth);
       }
     } catch (err) {
-      console.error("Auth failed", err);
+      console.error("Auth failed, falling back to local mode", err);
       useLocalFallback = true;
       updateSyncStatus(false);
       loadLocalData();
@@ -458,12 +547,16 @@
   function updateSyncStatus(connected) {
     const statusEl = document.getElementById("sync-status");
     const bannerEl = document.getElementById("banner-text");
+    const setupBanner = document.getElementById("setup-cloud-banner");
+
     if (connected && !useLocalFallback) {
-      statusEl.innerHTML = `<i class="ti ti-circle-check" style="color:#4ade80"></i> متصل بالسحابة · مزامنة لحظية نشطة`;
+      statusEl.innerHTML = `<i class="ti ti-circle-check" style="color:#2ecc71"></i> متصل بالسحابة · مزامنة لحظية نشطة`;
       if (bannerEl) bannerEl.textContent = "البيانات متزامنة سحابياً بشكل لحظي — أي تعديل يظهر فوراً للطرف الآخر دون تحديث";
+      if (setupBanner) setupBanner.style.display = "none";
     } else {
-      statusEl.innerHTML = `<i class="ti ti-device-sd-card" style="color:#e2a854"></i> وضع المعاينة اللامركزي نشط (حفظ محلي)`;
+      statusEl.innerHTML = `<i class="ti ti-device-sd-card" style="color:#7a1c24"></i> وضع المعاينة اللامركزي نشط (حفظ محلي)`;
       if (bannerEl) bannerEl.textContent = "يعمل النظام حالياً في وضع الحفظ الذاتي للمتصفح التجريبي";
+      if (setupBanner) setupBanner.style.display = "flex";
     }
   }
 
@@ -508,6 +601,7 @@
     renderSection(name);
   }
 
+  // GO BACK
   function goBack() {
     document.getElementById("dashboard").style.display = "block";
     SECTIONS.forEach(s => document.getElementById("sec-"+s).classList.remove("active"));
@@ -544,7 +638,7 @@
           <div class="file-drop" onclick="triggerFileUpload('${name}')">
             <i class="ti ti-cloud-upload"></i>
             <span>اضغط لاختيار ملف أو اسحب وأفلت هنا</span><br>
-            <span style="font-size:12px;color:#8899aa;margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 800 كيلوبايت</span>
+            <span style="font-size:12px;color:#8c7376;margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 800 كيلوبايت</span>
           </div>
         </div>
         <div class="upload-pane ${curTab==='url'?'active':''}">
@@ -741,6 +835,45 @@
     a.click();
   }
 
+  // FIREBASE CONFIG SETTINGS DIALOG
+  function openSettingsModal() {
+    // Fill current custom config in the textbox if exists
+    const currentCustom = localStorage.getItem("furqan_custom_firebase") || "";
+    document.getElementById("db-config-input").value = currentCustom;
+    document.getElementById("settings-modal").classList.add("show");
+  }
+
+  function closeSettingsModal() {
+    document.getElementById("settings-modal").classList.remove("show");
+  }
+
+  function saveCustomCloudConfig() {
+    const rawInput = document.getElementById("db-config-input").value.trim();
+    if (!rawInput) {
+      // Clear config to switch back to local
+      localStorage.removeItem("furqan_custom_firebase");
+      showNotif("🗑 تم إزالة الإعدادات السحابية، تحول للوضع المحلي");
+      closeSettingsModal();
+      setTimeout(() => location.reload(), 1000);
+      return;
+    }
+
+    try {
+      // Ensure it is valid JSON config
+      const parsed = JSON.parse(rawInput);
+      if (!parsed.apiKey || !parsed.projectId) {
+        showNotif("❌ كود الإعدادات غير مكتمل أو غير صحيح", true);
+        return;
+      }
+      localStorage.setItem("furqan_custom_firebase", JSON.stringify(parsed));
+      showNotif("✅ تم حفظ الإعدادات بنجاح! جاري الاتصال...");
+      closeSettingsModal();
+      setTimeout(() => location.reload(), 1000);
+    } catch (e) {
+      showNotif("❌ يرجى التأكد من كتابة كود الـ JSON بشكل صحيح تماماً", true);
+    }
+  }
+
   // CUSTOM DIALOG & MODAL LOGIC
   function showConfirmModal(title, text, onConfirm) {
     document.getElementById("confirm-title").textContent = title;
@@ -754,6 +887,7 @@
     document.getElementById("confirm-modal").classList.add("show");
   }
 
+  // SHOW ALERT
   function showCustomAlertModal(title, text) {
     document.getElementById("confirm-title").textContent = title;
     document.getElementById("confirm-text").textContent = text;
