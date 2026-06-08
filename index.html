@@ -7,37 +7,55 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
+  :root {
+    --burgundy: #7a1c2e;
+    --burgundy-hover: #93263b;
+    --light-pink: #fdf2f4;
+    --border-pink: #f5d3d8;
+    --dark-text: #3d1b21;
+    --muted-text: #8c6a70;
+    --pure-white: #ffffff;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Tajawal', sans-serif; background: #fdfafb; color: #2d181b; min-height: 100vh; direction: rtl; }
+  body { 
+    font-family: 'Tajawal', sans-serif; 
+    background: #faf5f6; 
+    color: var(--dark-text); 
+    min-height: 100vh; 
+    direction: rtl; 
+  }
 
   /* Login Screen Styling */
   #login-screen {
     display: flex; align-items: center; justify-content: center;
-    min-height: 100vh; background: #fdfafb;
+    min-height: 100vh; background: #faf5f6;
     position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100;
   }
   .login-card {
-    background: #ffffff; border: 1px solid #f5e3e5;
+    background: var(--pure-white); border: 1px solid var(--border-pink);
     border-radius: 20px; padding: 3rem 2.5rem; width: 380px; text-align: center;
-    box-shadow: 0 10px 30px rgba(122, 28, 36, 0.05);
+    box-shadow: 0 10px 30px rgba(122, 28, 36, 0.04);
   }
-  .logo-box { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 1.5rem; }
+  .logo-box { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 2rem; }
   .logo-img { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; }
-  .logo-text { font-size: 28px; font-weight: 800; color: #7a1c24; letter-spacing: -0.5px; }
-  .login-label { font-size: 14px; color: #8c7376; margin-bottom: 8px; text-align: right; }
+  .logo-text { font-size: 28px; font-weight: 800; color: var(--burgundy); letter-spacing: -0.5px; }
+  .login-label { font-size: 14px; color: var(--muted-text); margin-bottom: 8px; text-align: right; }
+  
   .pin-input {
     width: 100%; padding: 12px 16px; border-radius: 10px;
-    border: 1px solid #e8cbd0; background: #fdfafb; color: #2d181b;
+    border: 1px solid var(--border-pink); background: #fdfcfd; color: var(--dark-text);
     font-family: 'Tajawal', sans-serif; font-size: 18px; text-align: center;
     letter-spacing: 4px; margin-bottom: 1.5rem; outline: none;
+    transition: all 0.2s;
   }
-  .pin-input:focus { border-color: #7a1c24; box-shadow: 0 0 0 3px rgba(122, 28, 36, 0.1); }
+  .pin-input:focus { border-color: var(--burgundy); box-shadow: 0 0 0 3px rgba(122, 28, 36, 0.08); }
   .btn-login {
-    width: 100%; padding: 12px; background: #7a1c24; color: #ffffff;
+    width: 100%; padding: 12px; background: var(--burgundy); color: var(--pure-white);
     border: none; border-radius: 10px; font-family: 'Tajawal', sans-serif;
     font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
   }
-  .btn-login:hover { background: #91252e; transform: translateY(-1px); }
+  .btn-login:hover { background: var(--burgundy-hover); transform: translateY(-1px); }
   .login-error { color: #e05555; font-size: 13px; margin-top: 10px; display: none; }
 
   /* App Structure */
@@ -45,25 +63,24 @@
 
   /* Navigation Bar */
   .topbar {
-    background: #ffffff; border-bottom: 1px solid #f5e3e5;
+    background: var(--pure-white); border-bottom: 1px solid var(--border-pink);
     padding: 0 2rem; height: 64px; display: flex; align-items: center;
     justify-content: space-between; position: sticky; top: 0; z-index: 50;
-    box-shadow: 0 4px 15px rgba(122, 28, 36, 0.02);
+    box-shadow: 0 4px 15px rgba(122, 28, 36, 0.01);
   }
   .topbar-brand { display: flex; align-items: center; gap: 10px; }
   .topbar-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
-  .topbar-title { font-size: 20px; font-weight: 800; color: #7a1c24; }
+  .topbar-title { font-size: 20px; font-weight: 800; color: var(--burgundy); }
   
-  /* Sync Status with Animation */
   .sync-indicator { 
-    font-size: 12px; color: #7a1c24; background: #fff0f2; border: 1px solid #f5e3e5; 
+    font-size: 12px; color: var(--burgundy); background: var(--light-pink); border: 1px solid var(--border-pink); 
     padding: 6px 14px; border-radius: 30px; display: flex; align-items: center; gap: 8px; cursor: pointer; 
     transition: all 0.2s; font-weight: 600;
   }
-  .sync-indicator:hover { background: #fff5f5; border-color: #7a1c24; }
+  .sync-indicator:hover { background: #fff1f3; border-color: var(--burgundy); }
   
   .btn-logout {
-    background: transparent; border: 1px solid #e8cbd0; color: #8c7376;
+    background: transparent; border: 1px solid var(--border-pink); color: var(--muted-text);
     padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
     font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
   }
@@ -75,21 +92,20 @@
   #dashboard { display: block; }
   .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
   .dash-card {
-    background: #ffffff; border: 1px solid #f5e3e5; border-radius: 16px;
+    background: var(--pure-white); border: 1px solid var(--border-pink); border-radius: 16px;
     padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center;
-    box-shadow: 0 4px 12px rgba(122, 28, 36, 0.02);
+    box-shadow: 0 4px 12px rgba(122, 28, 36, 0.01);
   }
-  .dash-card:hover { border-color: #7a1c24; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(122, 28, 36, 0.06); }
+  .dash-card:hover { border-color: var(--burgundy); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(122, 28, 36, 0.05); }
   .dash-icon { font-size: 36px; margin-bottom: 12px; }
-  .dash-card-title { font-size: 17px; font-weight: 700; color: #2d181b; margin-bottom: 4px; }
-  .dash-card-sub { font-size: 13px; color: #8c7376; }
-  .dash-card-count { margin-top: 10px; font-size: 22px; font-weight: 800; color: #7a1c24; }
+  .dash-card-title { font-size: 17px; font-weight: 700; color: var(--dark-text); margin-bottom: 4px; }
+  .dash-card-sub { font-size: 13px; color: var(--muted-text); }
+  .dash-card-count { margin-top: 10px; font-size: 22px; font-weight: 800; color: var(--burgundy); }
 
-  /* Sheet Banner */
   .sheet-banner {
-    background: #fff5f5; border: 1px solid #f5e3e5; border-radius: 12px;
+    background: var(--light-pink); border: 1px solid var(--border-pink); border-radius: 12px;
     padding: 14px 20px; margin-bottom: 1.5rem; display: flex; align-items: center;
-    gap: 12px; font-size: 13.5px; color: #7a1c24; font-weight: 600;
+    gap: 12px; font-size: 13.5px; color: var(--burgundy); font-weight: 600;
   }
   .sheet-banner i { font-size: 18px; flex-shrink: 0; }
 
@@ -98,96 +114,98 @@
   .section.active { display: block; }
   .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
   .btn-back {
-    background: transparent; border: 1px solid #e8cbd0; color: #8c7376;
+    background: transparent; border: 1px solid var(--border-pink); color: var(--muted-text);
     padding: 8px 14px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
     font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
   }
-  .btn-back:hover { border-color: #7a1c24; color: #7a1c24; background: #fff5f5; }
-  .section-title { font-size: 22px; font-weight: 800; color: #2d181b; }
+  .btn-back:hover { border-color: var(--burgundy); color: var(--burgundy); background: var(--light-pink); }
+  .section-title { font-size: 22px; font-weight: 800; color: var(--dark-text); }
 
   /* Upload Box Components */
   .upload-box {
-    background: #ffffff; border: 1.5px dashed #e8cbd0; border-radius: 14px;
+    background: var(--pure-white); border: 1.5px dashed var(--border-pink); border-radius: 14px;
     padding: 2rem; margin-bottom: 1.5rem;
     box-shadow: 0 4px 12px rgba(122, 28, 36, 0.01);
   }
   .upload-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+  
   .tab-btn {
     flex: 1; padding: 10px; border-radius: 8px; font-family: 'Tajawal', sans-serif;
-    font-size: 14px; cursor: pointer; border: 1px solid #e8cbd0; background: transparent;
-    color: #8c7376; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-size: 14px; cursor: pointer; border: 1px solid var(--border-pink); background: transparent;
+    color: var(--muted-text); transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .tab-btn.active { background: #7a1c24; color: #ffffff; border-color: #7a1c24; font-weight: 700; }
+  .tab-btn.active { background: var(--burgundy); color: var(--pure-white); border-color: var(--burgundy); font-weight: 700; }
   .upload-pane { display: none; }
   .upload-pane.active { display: block; }
   .file-drop {
-    border: 1.5px dashed #e8cbd0; border-radius: 10px; padding: 2rem; text-align: center;
-    color: #8c7376; cursor: pointer; transition: all 0.2s; background: #fffafb;
+    border: 1.5px dashed var(--border-pink); border-radius: 10px; padding: 2rem; text-align: center;
+    color: var(--muted-text); cursor: pointer; transition: all 0.2s; background: #fffdfd;
   }
-  .file-drop:hover { border-color: #7a1c24; background: #fff5f5; color: #7a1c24; }
+  .file-drop:hover { border-color: var(--burgundy); background: var(--light-pink); color: var(--burgundy); }
   .file-drop i { font-size: 32px; display: block; margin-bottom: 8px; }
   .url-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .url-input {
-    flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 8px; border: 1px solid #e8cbd0;
-    background: #fdfafb; color: #2d181b; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+    flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-pink);
+    background: #fdfcfd; color: var(--dark-text); font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
     transition: all 0.2s;
   }
-  .url-input:focus { border-color: #7a1c24; background: #ffffff; }
+  .url-input:focus { border-color: var(--burgundy); background: var(--pure-white); }
   .url-name-input {
-    padding: 10px 14px; width: 180px; border-radius: 8px; border: 1px solid #e8cbd0;
-    background: #fdfafb; color: #2d181b; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+    padding: 10px 14px; width: 180px; border-radius: 8px; border: 1px solid var(--border-pink);
+    background: #fdfcfd; color: var(--dark-text); font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
     transition: all 0.2s;
   }
-  .url-name-input:focus { border-color: #7a1c24; background: #ffffff; }
+  .url-name-input:focus { border-color: var(--burgundy); background: var(--pure-white); }
+  
   .btn-add {
-    padding: 10px 18px; background: #7a1c24; color: #ffffff; border: none;
+    padding: 10px 18px; background: var(--burgundy); color: var(--pure-white); border: none;
     border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 14px;
     font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s;
     display: flex; align-items: center; gap: 6px;
   }
-  .btn-add:hover { background: #91252e; }
+  .btn-add:hover { background: var(--burgundy-hover); }
   .hidden-file { display: none; }
 
   /* Files List & Items Layout */
   .files-list { display: flex; flex-direction: column; gap: 10px; }
   .file-item {
-    background: #ffffff; border: 1px solid #f5e3e5; border-radius: 10px;
+    background: var(--pure-white); border: 1px solid var(--border-pink); border-radius: 10px;
     padding: 12px 16px; display: flex; align-items: center; gap: 12px;
     box-shadow: 0 2px 6px rgba(122, 28, 36, 0.01);
   }
-  .file-item-icon { font-size: 22px; color: #7a1c24; flex-shrink: 0; }
+  .file-item-icon { font-size: 22px; color: var(--burgundy); flex-shrink: 0; }
   .file-item-info { flex: 1; min-width: 0; }
-  .file-item-name { font-size: 14px; font-weight: 600; color: #2d181b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .file-item-meta { font-size: 12px; color: #8c7376; margin-top: 2px; }
+  .file-item-name { font-size: 14px; font-weight: 600; color: var(--dark-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-item-meta { font-size: 12px; color: var(--muted-text); margin-top: 2px; }
   .status-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
-  .tag-url { background: #eefbee; color: #2e7d32; border: 1px solid #c8e6c9; }
-  .tag-file { background: #fff0f2; color: #c2185b; border: 1px solid #f8bbd0; }
+  .tag-url { background: var(--light-pink); color: var(--burgundy); border: 1px solid var(--border-pink); }
+  .tag-file { background: #fff9fa; color: #b82d45; border: 1px solid #fce3e6; }
   
-  .btn-open { padding: 6px 12px; border-radius: 6px; border: 1px solid #e8cbd0; background: transparent; color: #7a1c24; font-family: 'Tajawal', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
-  .btn-open:hover { background: #fff0f2; border-color: #7a1c24; }
+  .btn-open { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-pink); background: transparent; color: var(--burgundy); font-family: 'Tajawal', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
+  .btn-open:hover { background: var(--light-pink); border-color: var(--burgundy); }
   .btn-del { padding: 6px 10px; border-radius: 6px; border: 1px solid #e05555; background: transparent; color: #e05555; cursor: pointer; font-size: 14px; transition: all 0.2s; flex-shrink: 0; }
   .btn-del:hover { background: #e05555; color: white; }
 
-  .empty-state { text-align: center; padding: 3rem; color: #8c7376; }
+  .empty-state { text-align: center; padding: 3rem; color: var(--muted-text); }
   .empty-state i { font-size: 40px; display: block; margin-bottom: 10px; }
 
   /* Loading State and Popups */
   .loading-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(253, 250, 251, 0.9); z-index: 200;
+    background: rgba(250, 245, 246, 0.9); z-index: 200;
     display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
   }
   .loading-overlay.show { display: flex; }
   .spinner {
-    width: 40px; height: 40px; border: 3px solid #f5e3e5;
-    border-top-color: #7a1c24; border-radius: 50%; animation: spin 0.8s linear infinite;
+    width: 40px; height: 40px; border: 3px solid var(--border-pink);
+    border-top-color: var(--burgundy); border-radius: 50%; animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 14px; color: #8c7376; }
+  .loading-text { font-size: 14px; color: var(--muted-text); }
 
   .notif {
     position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-    background: #ffffff; border: 1.5px solid #7a1c24; color: #7a1c24;
+    background: var(--pure-white); border: 1.5px solid var(--burgundy); color: var(--burgundy);
     padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600;
     z-index: 999; display: none; white-space: nowrap;
     box-shadow: 0 4px 15px rgba(122, 28, 36, 0.1);
@@ -203,13 +221,13 @@
   }
   .custom-modal.show { opacity: 1; pointer-events: auto; }
   .modal-content {
-    background: #ffffff; border: 1px solid #f5e3e5; border-radius: 20px;
+    background: var(--pure-white); border: 1px solid var(--border-pink); border-radius: 20px;
     padding: 2.5rem 2rem; max-width: 500px; width: 90%; text-align: center;
     box-shadow: 0 15px 40px rgba(122, 28, 36, 0.08);
     max-height: 85vh; overflow-y: auto;
   }
-  .modal-title { font-size: 19px; font-weight: 800; margin-bottom: 1rem; color: #7a1c24; }
-  .modal-text { font-size: 14px; color: #614d50; margin-bottom: 1.5rem; line-height: 1.6; text-align: right; }
+  .modal-title { font-size: 19px; font-weight: 800; margin-bottom: 1rem; color: var(--burgundy); }
+  .modal-text { font-size: 14px; color: var(--dark-text); margin-bottom: 1.5rem; line-height: 1.6; text-align: right; }
   .modal-buttons { display: flex; justify-content: center; gap: 12px; margin-top: 1.5rem; }
   .btn-modal-confirm {
     background: #e05555; color: white; border: none; padding: 10px 20px;
@@ -217,7 +235,7 @@
     transition: all 0.2s;
   }
   .btn-modal-cancel {
-    background: #fff0f2; color: #7a1c24; border: 1px solid #f5e3e5; padding: 10px 20px;
+    background: var(--light-pink); color: var(--burgundy); border: 1px solid var(--border-pink); padding: 10px 20px;
     border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
     transition: all 0.2s;
   }
@@ -252,7 +270,7 @@
       <img src="https://pbs.twimg.com/profile_images/1573906872956063745/3LnHPkhq_400x400.png" class="logo-img" alt="فرقان">
       <span class="logo-text">فُرقان</span>
     </div>
-    <p style="font-size:14px;color:#8c7376;margin-bottom:1.5rem;">منصة القياس والمتابعة</p>
+    <p style="font-size:14px;color:var(--muted-text);margin-bottom:1.5rem;">منصة القياس والمتابعة</p>
     <div class="login-label">الرقم السري</div>
     <input type="password" id="pin-field" class="pin-input" maxlength="6" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="btn-login" onclick="doLogin()">دخول</button>
@@ -278,7 +296,7 @@
   <div class="main">
     <!-- DASHBOARD -->
     <div id="dashboard">
-      <p style="font-size:14px;color:#8c7376;margin-bottom:1.5rem;">مرحباً — اختر القسم المطلوب لتبدأ المزامنة الحية</p>
+      <p style="font-size:14px;color:var(--muted-text);margin-bottom:1.5rem;">مرحباً — اختر القسم المطلوب لتبدأ المزامنة الحية</p>
 
       <div class="sheet-banner">
         <i class="ti ti-cloud-check"></i>
@@ -348,10 +366,10 @@
 <input type="file" id="global-file-input" class="hidden-file">
 
 <script>
-  // Cloud Database configuration (Pantry API - Shared JSON Basket)
-  const PANTRY_ID = "6bf2cb9a-2451-4e76-88ab-d48e8942b0c3"; 
-  const BASKET_NAME = "furqan_items_production_v1";
-  const API_URL = `https://getpantry.cloud/apiv1/pantry/${PANTRY_ID}/basket/${BASKET_NAME}`;
+  // Cloud Database Configuration (Ultra-fast KVdb Bucket)
+  // Shared anonymously and globally - any user with this ID will sync instantly
+  const BUCKET_ID = "A8v7Ym9Pz3K2Q5x1T4R_furqan_measuring_v3";
+  const API_URL = `https://kvdb.io/${BUCKET_ID}/data`;
 
   // App State variables
   let itemsList = []; 
@@ -372,8 +390,7 @@
   window.closeConfirmModal = closeConfirmModal;
   window.loadDataFromServer = loadDataFromServer;
 
-  
-  // Load local cache to prevent empty screen on start
+  // STEP 1: Load Local cache immediately (Zero-Waiting Bootup)
   function loadLocalData() {
     const saved = localStorage.getItem("furqan_local_items");
     if (saved) {
@@ -392,33 +409,41 @@
     localStorage.setItem("furqan_local_items", JSON.stringify(itemsList));
   }
 
-  // Load Real Data from Shared Server
+  // STEP 2: Fetch Cloud Data (Non-blocking and protected by a strict timeout)
   async function loadDataFromServer() {
     const syncIcon = document.getElementById("sync-icon");
     if (syncIcon) syncIcon.style.animation = "spin 1s linear infinite";
     
+    // Create a 3-second timeout to prevent "spinning forever" if network is down
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Timeout")), 3000)
+    );
+
     try {
-      const response = await fetch(API_URL, {
+      const fetchPromise = fetch(API_URL, {
         method: "GET",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Accept": "application/json" }
       });
+
+      // Race between the network fetch and the 3-second timeout
+      const response = await Promise.race([fetchPromise, timeoutPromise]);
       
       if (!response.ok) {
-        // If the basket doesn't exist yet, it's fine, we will create it on first save
-        if (response.status === 400 || response.status === 404) {
+        // If key doesn't exist yet, it's fine (empty state)
+        if (response.status === 404) {
           itemsList = [];
           updateCounts();
           if (window.currentSectionName) renderSection(window.currentSectionName);
           updateSyncUI(true);
           return;
         }
-        throw new Error("HTTP error " + response.status);
+        throw new Error("HTTP " + response.status);
       }
 
-      const data = await response.json();
-      itemsList = data.items || [];
+      const rawData = await response.json();
+      itemsList = Array.isArray(rawData) ? rawData : (rawData.items || []);
       
-      // Sort items globally by newest first
+      // Sort newest first
       itemsList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
       saveLocalData();
@@ -428,8 +453,9 @@
       }
       updateSyncUI(true);
     } catch (err) {
-      console.error("Error loading:", err);
-      updateSyncUI(false);
+      console.warn("Fast load failed, working locally:", err.message);
+      updateSyncUI(false, "تنبيه: تعمل بالنسخة المحلية");
+      // Render immediately from local cache so there is no blocking spinner
       loadLocalData();
       if (window.currentSectionName) renderSection(window.currentSectionName);
     } finally {
@@ -437,39 +463,37 @@
     }
   }
 
-  // Sync / Save Data to Server
   async function saveDataToServer() {
     updateSyncUI(false, "جاري الحفظ بالسحابة...");
     try {
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: itemsList })
+        body: JSON.stringify(itemsList)
       });
 
-      if (!response.ok) throw new Error("Cloud sync failed");
+      if (!response.ok) throw new Error("Cloud save failed");
       
       saveLocalData();
       updateSyncUI(true);
     } catch (err) {
-      console.error("Error saving:", err);
-      showNotif("⚠️ فشل الاتصال بقاعدة البيانات الحية", true);
+      console.error("Error saving to cloud:", err);
+      showNotif("⚠️ فشل الاتصال بالسحابة - تم الحفظ محلياً مؤقتاً", true);
       updateSyncUI(false, "تنبيه: تعمل محلياً");
     }
   }
 
-  // Real-time Polling to check for changes every 20 seconds
+  // Real-time silent Polling (checks background every 15 seconds)
   async function pollDataFromServer() {
     try {
       const response = await fetch(API_URL, {
         method: "GET",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Accept": "application/json" }
       });
       if (response.ok) {
-        const data = await response.json();
-        const serverItems = data.items || [];
+        const rawData = await response.json();
+        const serverItems = Array.isArray(rawData) ? rawData : (rawData.items || []);
         
-        // Simple comparison check
+        // Check if server data is actually different to prevent redraw flickering
         if (JSON.stringify(serverItems) !== JSON.stringify(itemsList)) {
           itemsList = serverItems;
           itemsList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -483,7 +507,7 @@
         updateSyncUI(true);
       }
     } catch (e) {
-      console.warn("Silent polling connection retry failed.");
+      console.warn("Silent background poll failed.");
     }
   }
 
@@ -492,7 +516,7 @@
     if (!statusEl) return;
     
     if (connected) {
-      statusEl.innerHTML = `<i class="ti ti-cloud-check" style="color:#2e7d32"></i> متصل بالسحابة · مزامنة حقيقية`;
+      statusEl.innerHTML = `<i class="ti ti-cloud-check" style="color:#2d7d46"></i> متصل بالسحابة · مزامنة حقيقية`;
     } else {
       statusEl.innerHTML = `<i class="ti ti-cloud-off" style="color:#e05555"></i> ${msg || "غير متصل"}`;
     }
@@ -507,8 +531,6 @@
     });
   }
 
-
-  // LOGIN SCREEN LOGIC
   function doLogin() {
     const rawVal = document.getElementById("pin-field").value;
     const fieldVal = normalizeDigits(rawVal.trim());
@@ -516,10 +538,12 @@
     if (fieldVal === PIN) {
       document.getElementById("login-screen").style.display = "none";
       document.getElementById("app").style.display = "flex";
+      
+      // Load fast
       loadDataFromServer();
       
-      // Start polling
-      setInterval(pollDataFromServer, 20000);
+      // Start polling every 15 seconds
+      setInterval(pollDataFromServer, 15000);
       showNotif("✅ مرحباً بك في منصة فُرقان");
     } else {
       document.getElementById("login-err").style.display = "block";
@@ -580,7 +604,7 @@
           <div class="file-drop" onclick="triggerFileUpload('${name}')">
             <i class="ti ti-cloud-upload"></i>
             <span>اضغط لاختيار ملف أو اسحب وأفلت هنا</span><br>
-            <span style="font-size:12px;color:#8c7376;margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 500 كيلوبايت لضمان المزامنة السريعة</span>
+            <span style="font-size:12px;color:var(--muted-text);margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 500 كيلوبايت لضمان المزامنة الفورية</span>
           </div>
         </div>
         <div class="upload-pane ${curTab==='url'?'active':''}">
@@ -837,7 +861,7 @@
     return (bytes/1048576).toFixed(1) + " MB";
   }
 
-  // Init application
+  // Init application (Guarantees absolute responsiveness)
   window.onload = function() {
     loadLocalData();
   }
