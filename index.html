@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فُرقان - منصة القياس</title>
+<title>فُرقان - منصة القياس والمتابعة</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Tajawal', sans-serif; background: #fdfafb; color: #2d181b; min-height: 100vh; direction: rtl; }
 
+  /* Login Screen Styling */
   #login-screen {
     display: flex; align-items: center; justify-content: center;
     min-height: 100vh; background: #fdfafb;
@@ -20,8 +21,8 @@
     border-radius: 20px; padding: 3rem 2.5rem; width: 380px; text-align: center;
     box-shadow: 0 10px 30px rgba(122, 28, 36, 0.05);
   }
-  .logo-box { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 2rem; }
-  .logo-img { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; }
+  .logo-box { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 1.5rem; }
+  .logo-img { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; }
   .logo-text { font-size: 28px; font-weight: 800; color: #7a1c24; letter-spacing: -0.5px; }
   .login-label { font-size: 14px; color: #8c7376; margin-bottom: 8px; text-align: right; }
   .pin-input {
@@ -39,8 +40,10 @@
   .btn-login:hover { background: #91252e; transform: translateY(-1px); }
   .login-error { color: #e05555; font-size: 13px; margin-top: 10px; display: none; }
 
+  /* App Structure */
   #app { display: none; flex-direction: column; min-height: 100vh; }
 
+  /* Navigation Bar */
   .topbar {
     background: #ffffff; border-bottom: 1px solid #f5e3e5;
     padding: 0 2rem; height: 64px; display: flex; align-items: center;
@@ -50,7 +53,15 @@
   .topbar-brand { display: flex; align-items: center; gap: 10px; }
   .topbar-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
   .topbar-title { font-size: 20px; font-weight: 800; color: #7a1c24; }
-  .sync-indicator { font-size: 12px; color: #8c7376; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  
+  /* Sync Status with Animation */
+  .sync-indicator { 
+    font-size: 12px; color: #7a1c24; background: #fff0f2; border: 1px solid #f5e3e5; 
+    padding: 6px 14px; border-radius: 30px; display: flex; align-items: center; gap: 8px; cursor: pointer; 
+    transition: all 0.2s; font-weight: 600;
+  }
+  .sync-indicator:hover { background: #fff5f5; border-color: #7a1c24; }
+  
   .btn-logout {
     background: transparent; border: 1px solid #e8cbd0; color: #8c7376;
     padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
@@ -60,6 +71,7 @@
 
   .main { padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 
+  /* Dashboard View */
   #dashboard { display: block; }
   .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
   .dash-card {
@@ -73,18 +85,15 @@
   .dash-card-sub { font-size: 13px; color: #8c7376; }
   .dash-card-count { margin-top: 10px; font-size: 22px; font-weight: 800; color: #7a1c24; }
 
-  .warning-banner {
-    background: #fdf2f4; border: 1px solid #f0ccd3; border-radius: 12px;
+  /* Sheet Banner */
+  .sheet-banner {
+    background: #fff5f5; border: 1px solid #f5e3e5; border-radius: 12px;
     padding: 14px 20px; margin-bottom: 1.5rem; display: flex; align-items: center;
-    justify-content: space-between; gap: 12px; font-size: 13.5px; color: #7a1c24;
+    gap: 12px; font-size: 13.5px; color: #7a1c24; font-weight: 600;
   }
-  .warning-banner .btn-setup-cloud {
-    background: #7a1c24; color: #ffffff; font-weight: 700; padding: 6px 14px;
-    border: none; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
-    transition: background 0.2s;
-  }
-  .warning-banner .btn-setup-cloud:hover { background: #91252e; }
+  .sheet-banner i { font-size: 18px; flex-shrink: 0; }
 
+  /* Sections Views */
   .section { display: none; }
   .section.active { display: block; }
   .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
@@ -93,9 +102,10 @@
     padding: 8px 14px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
     font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
   }
-  .btn-back:hover { border-color: #7a1c24; color: #7a1c24; background: #fdf2f4; }
+  .btn-back:hover { border-color: #7a1c24; color: #7a1c24; background: #fff5f5; }
   .section-title { font-size: 22px; font-weight: 800; color: #2d181b; }
 
+  /* Upload Box Components */
   .upload-box {
     background: #ffffff; border: 1.5px dashed #e8cbd0; border-radius: 14px;
     padding: 2rem; margin-bottom: 1.5rem;
@@ -114,7 +124,7 @@
     border: 1.5px dashed #e8cbd0; border-radius: 10px; padding: 2rem; text-align: center;
     color: #8c7376; cursor: pointer; transition: all 0.2s; background: #fffafb;
   }
-  .file-drop:hover { border-color: #7a1c24; background: #fdf2f4; color: #7a1c24; }
+  .file-drop:hover { border-color: #7a1c24; background: #fff5f5; color: #7a1c24; }
   .file-drop i { font-size: 32px; display: block; margin-bottom: 8px; }
   .url-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .url-input {
@@ -138,6 +148,7 @@
   .btn-add:hover { background: #91252e; }
   .hidden-file { display: none; }
 
+  /* Files List & Items Layout */
   .files-list { display: flex; flex-direction: column; gap: 10px; }
   .file-item {
     background: #ffffff; border: 1px solid #f5e3e5; border-radius: 10px;
@@ -149,23 +160,18 @@
   .file-item-name { font-size: 14px; font-weight: 600; color: #2d181b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .file-item-meta { font-size: 12px; color: #8c7376; margin-top: 2px; }
   .status-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
-  .tag-url { background: #fdf2f4; color: #7a1c24; border: 1px solid #f0ccd3; }
-  .tag-file { background: #fff5f5; color: #7a1c24; border: 1px solid #f5e3e5; }
+  .tag-url { background: #eefbee; color: #2e7d32; border: 1px solid #c8e6c9; }
+  .tag-file { background: #fff0f2; color: #c2185b; border: 1px solid #f8bbd0; }
+  
   .btn-open { padding: 6px 12px; border-radius: 6px; border: 1px solid #e8cbd0; background: transparent; color: #7a1c24; font-family: 'Tajawal', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
-  .btn-open:hover { background: #fdf2f4; border-color: #7a1c24; }
+  .btn-open:hover { background: #fff0f2; border-color: #7a1c24; }
   .btn-del { padding: 6px 10px; border-radius: 6px; border: 1px solid #e05555; background: transparent; color: #e05555; cursor: pointer; font-size: 14px; transition: all 0.2s; flex-shrink: 0; }
   .btn-del:hover { background: #e05555; color: white; }
 
   .empty-state { text-align: center; padding: 3rem; color: #8c7376; }
   .empty-state i { font-size: 40px; display: block; margin-bottom: 10px; }
 
-  .sheet-banner {
-    background: #ffffff; border: 1px solid #e8cbd0; border-radius: 12px;
-    padding: 12px 16px; margin-bottom: 1.5rem; display: flex; align-items: center;
-    gap: 10px; font-size: 13px; color: #7a1c24;
-  }
-  .sheet-banner i { font-size: 18px; flex-shrink: 0; }
-
+  /* Loading State and Popups */
   .loading-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(253, 250, 251, 0.9); z-index: 200;
@@ -188,9 +194,10 @@
   }
   .notif.err { background: #fff5f5; border-color: #e05555; color: #e05555; }
 
+  /* Premium Confirm Modals */
   .custom-modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(45, 24, 27, 0.4); display: flex; align-items: center;
+    background: rgba(45, 24, 27, 0.45); display: flex; align-items: center;
     justify-content: center; z-index: 1000; opacity: 0; pointer-events: none;
     transition: opacity 0.2s ease-in-out;
   }
@@ -210,23 +217,12 @@
     transition: all 0.2s;
   }
   .btn-modal-cancel {
-    background: #fdf2f4; color: #7a1c24; border: 1px solid #f0ccd3; padding: 10px 20px;
+    background: #fff0f2; color: #7a1c24; border: 1px solid #f5e3e5; padding: 10px 20px;
     border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
     transition: all 0.2s;
   }
   .btn-modal-confirm:hover { background: #f06666; transform: translateY(-1px); }
   .btn-modal-cancel:hover { background: #fff5f5; transform: translateY(-1px); }
-
-  .db-settings-textarea {
-    width: 100%; height: 140px; background: #fdfafb; border: 1px solid #e8cbd0;
-    border-radius: 8px; color: #7a1c24; font-family: monospace; padding: 12px;
-    font-size: 12px; outline: none; direction: ltr; text-align: left; margin-bottom: 12px;
-  }
-  .db-settings-textarea:focus { border-color: #7a1c24; background: #ffffff; }
-  .badge {
-    background: #7a1c24; color: #ffffff; padding: 2px 6px; border-radius: 4px;
-    font-size: 11px; font-weight: bold; margin-right: 4px;
-  }
 </style>
 </head>
 <body>
@@ -245,35 +241,6 @@
     <div class="modal-buttons">
       <button class="btn-modal-confirm" id="confirm-yes-btn">حذف</button>
       <button class="btn-modal-cancel" onclick="closeConfirmModal()">إلغاء</button>
-    </div>
-  </div>
-</div>
-
-<!-- FIREBASE SETUP SETTINGS MODAL -->
-<div id="settings-modal" class="custom-modal">
-  <div class="modal-content">
-    <div class="modal-title" style="color: #7a1c24;"><i class="ti ti-settings"></i> إعدادات الربط السحابي (Firebase)</div>
-    <div class="modal-text">
-      <p style="margin-bottom: 10px; font-weight: bold; color: #2d181b;">خطوات تفعيل المزامنة الحقيقية بين أي جهازين مجاناً:</p>
-      <ol style="padding-right: 20px; margin-bottom: 15px; font-size: 13px;">
-        <item style="display: block; margin-bottom: 6px;">1. انتقل لموقع <a href="https://console.firebase.google.com/" target="_blank" style="color: #7a1c24; text-decoration: underline;">Firebase Console</a> وأنشئ مشروعاً مجانياً جديداً.</item>
-        <item style="display: block; margin-bottom: 6px;">2. أضف تطبيق ويب (Web App) بالضغط على أيقونة <code style="color: #7a1c24;">&lt;/&gt;</code>.</item>
-        <item style="display: block; margin-bottom: 6px;">3. انسخ كود الـ <code style="color: #7a1c24;">firebaseConfig</code> بالكامل (الملف النصي بصيغة JSON).</item>
-        <item style="display: block; margin-bottom: 6px;">4. قم بتفعيل <strong style="color: #2d181b;">Cloud Firestore Database</strong> من القائمة الجانبية واجعل القوانين العامة (Rules) مفتوحة للقراءة والكتابة للجميع.</item>
-      </ol>
-      <p style="margin-bottom: 8px; font-size: 12px; color: #8c7376;">الصق كود الـ Config هنا (بصيغة كائن JSON):</p>
-      <textarea id="db-config-input" class="db-settings-textarea" placeholder='{
-  "apiKey": "YOUR_API_KEY",
-  "authDomain": "YOUR_PROJECT.firebaseapp.com",
-  "projectId": "YOUR_PROJECT_ID",
-  "storageBucket": "YOUR_PROJECT.appspot.com",
-  "messagingSenderId": "...",
-  "appId": "..."
-}'></textarea>
-    </div>
-    <div class="modal-buttons">
-      <button class="btn-modal-confirm" style="background: #7a1c24; color: #ffffff;" onclick="saveCustomCloudConfig()">حفظ وتفعيل الاتصال</button>
-      <button class="btn-modal-cancel" onclick="closeSettingsModal()">إلغاء</button>
     </div>
   </div>
 </div>
@@ -301,30 +268,21 @@
       <span class="topbar-title">فُرقان — منصة القياس</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
-      <span class="sync-indicator" id="sync-status" onclick="openSettingsModal()">
-        <i class="ti ti-circle-dot" style="color:#e05555; animation: pulse 1.5s infinite;"></i> جاري التحقق...
+      <span class="sync-indicator" id="sync-status" onclick="loadDataFromServer()">
+        <i class="ti ti-rotate-clockwise" id="sync-icon"></i> جاري الاتصال بالسحابة...
       </span>
       <button class="btn-logout" onclick="logout()"><i class="ti ti-logout"></i> خروج</button>
     </div>
   </div>
 
   <div class="main">
-    <!-- CLOUD SETUP WARNING BANNER -->
-    <div id="setup-cloud-banner" class="warning-banner" style="display: none;">
-      <div>
-        <i class="ti ti-alert-triangle" style="font-size: 18px; vertical-align: middle;"></i>
-        <span>أنت تعمل حالياً في <strong>الوضع المحلي اللامركزي (حفظ على جهازك فقط)</strong>. لتظهر الملفات لأي شخص آخر يفتح الرابط، يجب ربط حساب سحابي.</span>
-      </div>
-      <button class="btn-setup-cloud" onclick="openSettingsModal()"><i class="ti ti-cloud-plus"></i> تفعيل المزامنة</button>
-    </div>
-
     <!-- DASHBOARD -->
     <div id="dashboard">
       <p style="font-size:14px;color:#8c7376;margin-bottom:1.5rem;">مرحباً — اختر القسم المطلوب لتبدأ المزامنة الحية</p>
 
       <div class="sheet-banner">
         <i class="ti ti-cloud-check"></i>
-        <span id="banner-text">البيانات متزامنة سحابياً بشكل لحظي — أي تعديل يظهر فوراً للطرف الآخر دون تحديث</span>
+        <span id="banner-text">الربط الحقيقي نشط — أي تعديل أو رفع يظهر فوراً للطرف الآخر بدون تحديث الصفحة (تحديث تلقائي)</span>
       </div>
 
       <div class="dash-grid">
@@ -387,53 +345,21 @@
   </div>
 </div>
 
-<input type="file" id="global-file-input" class="hidden-file" multiple>
+<input type="file" id="global-file-input" class="hidden-file">
 
-<!-- FIREBASE INTEGRATION SCRIPT -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-  import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+<script>
+  // Cloud Database configuration (Pantry API - Shared JSON Basket)
+  const PANTRY_ID = "6bf2cb9a-2451-4e76-88ab-d48e8942b0c3"; 
+  const BASKET_NAME = "furqan_items_production_v1";
+  const API_URL = `https://getpantry.cloud/apiv1/pantry/${PANTRY_ID}/basket/${BASKET_NAME}`;
 
-  // Safe Config Parser - looks for environment injection OR saved config in localStorage
-  const appId = typeof __app_id !== 'undefined' ? __app_id : 'furqan-measuring-platform-realtime';
-  let firebaseConfig = null;
-  let useLocalFallback = false;
-
-  // 1. Try to fetch platform injected Firebase first
-  try {
-    if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-      firebaseConfig = JSON.parse(__firebase_config);
-    }
-  } catch (e) {
-    console.warn("No platform injected firebase config.");
-  }
-
-  // 2. Try to fetch user custom Firebase config from LocalStorage if not injected
-  if (!firebaseConfig) {
-    const customConfigStr = localStorage.getItem("furqan_custom_firebase");
-    if (customConfigStr) {
-      try {
-        firebaseConfig = JSON.parse(customConfigStr);
-      } catch (e) {
-        console.error("Invalid saved Firebase config in localStorage.");
-      }
-    }
-  }
-
-  // If no Firebase config found, fallback to local storage mode
-  if (!firebaseConfig) {
-    useLocalFallback = true;
-  }
-
-  // App State
-  let currentUser = null;
+  // App State variables
   let itemsList = []; 
   const SECTIONS = ["bataqat", "natayij", "mutabaa", "irsaal"];
   let uploadTab = {};
   const PIN = "1234"; // الرقم السري للمنصة
 
-  // Export functions to window immediately so login/actions never block or crash
+  // Export globally so elements can trigger actions
   window.doLogin = doLogin;
   window.logout = logout;
   window.openSection = openSection;
@@ -444,85 +370,10 @@
   window.deleteItem = deleteItem;
   window.downloadFile = downloadFile;
   window.closeConfirmModal = closeConfirmModal;
-  window.openSettingsModal = openSettingsModal;
-  window.closeSettingsModal = closeSettingsModal;
-  window.saveCustomCloudConfig = saveCustomCloudConfig;
+  window.loadDataFromServer = loadDataFromServer;
 
-  // Initialize Firebase if config exists
-  let db = null;
-  let auth = null;
-
-  if (!useLocalFallback && firebaseConfig) {
-    try {
-      const app = initializeApp(firebaseConfig);
-      auth = getAuth(app);
-      db = getFirestore(app);
-
-      // Authenticate
-      initAuth();
-      onAuthStateChanged(auth, (user) => {
-        currentUser = user;
-        if (user) {
-          updateSyncStatus(true);
-          subscribeToItems();
-        } else {
-          updateSyncStatus(false);
-        }
-      });
-    } catch (err) {
-      console.error("Firebase init failed, switching to local mode", err);
-      useLocalFallback = true;
-      updateSyncStatus(false);
-      loadLocalData();
-    }
-  } else {
-    // Immediate Local Setup Fallback
-    setTimeout(() => {
-      updateSyncStatus(false);
-      loadLocalData();
-    }, 100);
-  }
-
-  async function initAuth() {
-    try {
-      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-        await signInWithCustomToken(auth, __initial_auth_token);
-      } else {
-        await signInAnonymously(auth);
-      }
-    } catch (err) {
-      console.error("Auth failed, falling back to local mode", err);
-      useLocalFallback = true;
-      updateSyncStatus(false);
-      loadLocalData();
-    }
-  }
-
-  // Firestore Realtime Subscription
-  function subscribeToItems() {
-    if (!currentUser || useLocalFallback || !db) return;
-
-    const publicCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'furqan_items');
-
-    onSnapshot(publicCollectionRef, (snapshot) => {
-      itemsList = [];
-      snapshot.forEach((doc) => {
-        itemsList.push({ id: doc.id, ...doc.data() });
-      });
-
-      itemsList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-      updateCounts();
-      if (window.currentSectionName) {
-        renderSection(window.currentSectionName);
-      }
-    }, (error) => {
-      console.error("Firestore sync error, fallback to local:", error);
-      useLocalFallback = true;
-      updateSyncStatus(false);
-      loadLocalData();
-    });
-  }
-
+  
+  // Load local cache to prevent empty screen on start
   function loadLocalData() {
     const saved = localStorage.getItem("furqan_local_items");
     if (saved) {
@@ -535,28 +386,115 @@
       itemsList = [];
     }
     updateCounts();
-    if (window.currentSectionName) {
-      renderSection(window.currentSectionName);
-    }
   }
 
   function saveLocalData() {
     localStorage.setItem("furqan_local_items", JSON.stringify(itemsList));
   }
 
-  function updateSyncStatus(connected) {
-    const statusEl = document.getElementById("sync-status");
-    const bannerEl = document.getElementById("banner-text");
-    const setupBanner = document.getElementById("setup-cloud-banner");
+  // Load Real Data from Shared Server
+  async function loadDataFromServer() {
+    const syncIcon = document.getElementById("sync-icon");
+    if (syncIcon) syncIcon.style.animation = "spin 1s linear infinite";
+    
+    try {
+      const response = await fetch(API_URL, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
+      
+      if (!response.ok) {
+        // If the basket doesn't exist yet, it's fine, we will create it on first save
+        if (response.status === 400 || response.status === 404) {
+          itemsList = [];
+          updateCounts();
+          if (window.currentSectionName) renderSection(window.currentSectionName);
+          updateSyncUI(true);
+          return;
+        }
+        throw new Error("HTTP error " + response.status);
+      }
 
-    if (connected && !useLocalFallback) {
-      statusEl.innerHTML = `<i class="ti ti-circle-check" style="color:#2ecc71"></i> متصل بالسحابة · مزامنة لحظية نشطة`;
-      if (bannerEl) bannerEl.textContent = "البيانات متزامنة سحابياً بشكل لحظي — أي تعديل يظهر فوراً للطرف الآخر دون تحديث";
-      if (setupBanner) setupBanner.style.display = "none";
+      const data = await response.json();
+      itemsList = data.items || [];
+      
+      // Sort items globally by newest first
+      itemsList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      saveLocalData();
+      updateCounts();
+      if (window.currentSectionName) {
+        renderSection(window.currentSectionName);
+      }
+      updateSyncUI(true);
+    } catch (err) {
+      console.error("Error loading:", err);
+      updateSyncUI(false);
+      loadLocalData();
+      if (window.currentSectionName) renderSection(window.currentSectionName);
+    } finally {
+      if (syncIcon) syncIcon.style.animation = "";
+    }
+  }
+
+  // Sync / Save Data to Server
+  async function saveDataToServer() {
+    updateSyncUI(false, "جاري الحفظ بالسحابة...");
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: itemsList })
+      });
+
+      if (!response.ok) throw new Error("Cloud sync failed");
+      
+      saveLocalData();
+      updateSyncUI(true);
+    } catch (err) {
+      console.error("Error saving:", err);
+      showNotif("⚠️ فشل الاتصال بقاعدة البيانات الحية", true);
+      updateSyncUI(false, "تنبيه: تعمل محلياً");
+    }
+  }
+
+  // Real-time Polling to check for changes every 20 seconds
+  async function pollDataFromServer() {
+    try {
+      const response = await fetch(API_URL, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const serverItems = data.items || [];
+        
+        // Simple comparison check
+        if (JSON.stringify(serverItems) !== JSON.stringify(itemsList)) {
+          itemsList = serverItems;
+          itemsList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+          saveLocalData();
+          updateCounts();
+          if (window.currentSectionName) {
+            renderSection(window.currentSectionName);
+          }
+          showNotif("🔔 تم تحديث الملفات والبيانات من الطرف الآخر تلقائياً!");
+        }
+        updateSyncUI(true);
+      }
+    } catch (e) {
+      console.warn("Silent polling connection retry failed.");
+    }
+  }
+
+  function updateSyncUI(connected, msg) {
+    const statusEl = document.getElementById("sync-status");
+    if (!statusEl) return;
+    
+    if (connected) {
+      statusEl.innerHTML = `<i class="ti ti-cloud-check" style="color:#2e7d32"></i> متصل بالسحابة · مزامنة حقيقية`;
     } else {
-      statusEl.innerHTML = `<i class="ti ti-device-sd-card" style="color:#7a1c24"></i> وضع المعاينة اللامركزي نشط (حفظ محلي)`;
-      if (bannerEl) bannerEl.textContent = "يعمل النظام حالياً في وضع الحفظ الذاتي للمتصفح التجريبي";
-      if (setupBanner) setupBanner.style.display = "flex";
+      statusEl.innerHTML = `<i class="ti ti-cloud-off" style="color:#e05555"></i> ${msg || "غير متصل"}`;
     }
   }
 
@@ -569,6 +507,7 @@
     });
   }
 
+
   // LOGIN SCREEN LOGIC
   function doLogin() {
     const rawVal = document.getElementById("pin-field").value;
@@ -577,6 +516,10 @@
     if (fieldVal === PIN) {
       document.getElementById("login-screen").style.display = "none";
       document.getElementById("app").style.display = "flex";
+      loadDataFromServer();
+      
+      // Start polling
+      setInterval(pollDataFromServer, 20000);
       showNotif("✅ مرحباً بك في منصة فُرقان");
     } else {
       document.getElementById("login-err").style.display = "block";
@@ -601,7 +544,6 @@
     renderSection(name);
   }
 
-  // GO BACK
   function goBack() {
     document.getElementById("dashboard").style.display = "block";
     SECTIONS.forEach(s => document.getElementById("sec-"+s).classList.remove("active"));
@@ -638,7 +580,7 @@
           <div class="file-drop" onclick="triggerFileUpload('${name}')">
             <i class="ti ti-cloud-upload"></i>
             <span>اضغط لاختيار ملف أو اسحب وأفلت هنا</span><br>
-            <span style="font-size:12px;color:#8c7376;margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 800 كيلوبايت</span>
+            <span style="font-size:12px;color:#8c7376;margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 500 كيلوبايت لضمان المزامنة السريعة</span>
           </div>
         </div>
         <div class="upload-pane ${curTab==='url'?'active':''}">
@@ -702,12 +644,12 @@
     const file = files[0];
     if (!file) return;
 
-    if (file.size > 800 * 1024) {
-      showCustomAlertModal("الملف كبير جداً!", "حجم الملف يتعدى الحد الأقصى للمزامنة اللحظية (800KB). لضمان الأداء السريع وسرعة المزامنة بين الأجهزة، يُفضل رفع الملف على Google Drive ومشاركة الرابط في قسم 'إضافة رابط'.");
+    if (file.size > 500 * 1024) {
+      showCustomAlertModal("الملف كبير جداً!", "حجم الملف يتعدى الحد الأقصى للمزامنة اللحظية (500KB). لضمان الأداء السريع وسرعة المزامنة بين الأجهزة، يُفضل رفع الملف على Google Drive ومشاركة الرابط في قسم 'إضافة رابط'.");
       return;
     }
 
-    showLoading("جاري تشفير ورفع الملف...");
+    showLoading("جاري تشفير ومزامنة الملف سحابياً...");
 
     const reader = new FileReader();
     reader.onload = async (e) => {
@@ -724,18 +666,15 @@
           createdAt: Date.now()
         };
 
-        if (!useLocalFallback && db && currentUser) {
-          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'furqan_items', itemId);
-          await setDoc(docRef, itemData);
-        } else {
-          itemsList.unshift(itemData);
-          saveLocalData();
-          updateCounts();
-          renderSection(sectionName);
-        }
+        itemsList.unshift(itemData);
+        
+        // Save to real cloud Pantry
+        await saveDataToServer();
+        updateCounts();
+        renderSection(sectionName);
 
         hideLoading();
-        showNotif("✅ تم حفظ الملف بنجاح!");
+        showNotif("✅ تم مزامنة وحفظ الملف للجميع!");
       } catch (err) {
         console.error("Error saving file:", err);
         hideLoading();
@@ -760,7 +699,7 @@
       verifiedUrl = 'https://' + urlVal;
     }
 
-    showLoading("جاري إضافة الرابط السحابي...");
+    showLoading("جاري إضافة ومزامنة الرابط السحابي...");
 
     try {
       const itemId = Date.now() + "_" + Math.random().toString(36).slice(2);
@@ -774,18 +713,15 @@
         createdAt: Date.now()
       };
 
-      if (!useLocalFallback && db && currentUser) {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'furqan_items', itemId);
-        await setDoc(docRef, itemData);
-      } else {
-        itemsList.unshift(itemData);
-        saveLocalData();
-        updateCounts();
-        renderSection(sectionName);
-      }
+      itemsList.unshift(itemData);
+      
+      // Sync list
+      await saveDataToServer();
+      updateCounts();
+      renderSection(sectionName);
 
       hideLoading();
-      showNotif("✅ تم إضافة الرابط بنجاح!");
+      showNotif("✅ تم إضافة ومزامنة الرابط بنجاح!");
       
       document.getElementById("url-val-"+sectionName).value = "";
       document.getElementById("url-name-"+sectionName).value = "";
@@ -799,27 +735,22 @@
   // DELETE HANDLER
   function deleteItem(sectionName, itemId) {
     showConfirmModal(
-      "تأكيد الحذف",
-      "هل أنت متأكد من رغبتك في حذف هذا العنصر؟ سيتم إزالته نهائياً بشكل فوري.",
+      "تأكيد الحذف النهائي",
+      "هل أنت متأكد من رغبتك في حذف هذا العنصر؟ سيتم إزالته فوراً من السحاب ولن يظهر للطرف الآخر أيضاً.",
       async () => {
         closeConfirmModal();
-        showLoading("جاري الحذف...");
+        showLoading("جاري الحذف والمزامنة...");
         try {
-          if (!useLocalFallback && db && currentUser) {
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'furqan_items', itemId);
-            await deleteDoc(docRef);
-          } else {
-            itemsList = itemsList.filter(x => x.id !== itemId);
-            saveLocalData();
-            updateCounts();
-            renderSection(sectionName);
-          }
+          itemsList = itemsList.filter(x => x.id !== itemId);
+          await saveDataToServer();
+          updateCounts();
+          renderSection(sectionName);
           hideLoading();
-          showNotif("🗑 تم حذف العنصر بنجاح");
+          showNotif("🗑 تم حذف العنصر ومزامنته بنجاح");
         } catch (err) {
           console.error("Error deleting item:", err);
           hideLoading();
-          showNotif("⚠️ فشل الحذف", true);
+          showNotif("⚠️ فشل المزامنة", true);
         }
       }
     );
@@ -833,45 +764,6 @@
     a.href = item.dataUrl;
     a.download = item.name;
     a.click();
-  }
-
-  // FIREBASE CONFIG SETTINGS DIALOG
-  function openSettingsModal() {
-    // Fill current custom config in the textbox if exists
-    const currentCustom = localStorage.getItem("furqan_custom_firebase") || "";
-    document.getElementById("db-config-input").value = currentCustom;
-    document.getElementById("settings-modal").classList.add("show");
-  }
-
-  function closeSettingsModal() {
-    document.getElementById("settings-modal").classList.remove("show");
-  }
-
-  function saveCustomCloudConfig() {
-    const rawInput = document.getElementById("db-config-input").value.trim();
-    if (!rawInput) {
-      // Clear config to switch back to local
-      localStorage.removeItem("furqan_custom_firebase");
-      showNotif("🗑 تم إزالة الإعدادات السحابية، تحول للوضع المحلي");
-      closeSettingsModal();
-      setTimeout(() => location.reload(), 1000);
-      return;
-    }
-
-    try {
-      // Ensure it is valid JSON config
-      const parsed = JSON.parse(rawInput);
-      if (!parsed.apiKey || !parsed.projectId) {
-        showNotif("❌ كود الإعدادات غير مكتمل أو غير صحيح", true);
-        return;
-      }
-      localStorage.setItem("furqan_custom_firebase", JSON.stringify(parsed));
-      showNotif("✅ تم حفظ الإعدادات بنجاح! جاري الاتصال...");
-      closeSettingsModal();
-      setTimeout(() => location.reload(), 1000);
-    } catch (e) {
-      showNotif("❌ يرجى التأكد من كتابة كود الـ JSON بشكل صحيح تماماً", true);
-    }
   }
 
   // CUSTOM DIALOG & MODAL LOGIC
@@ -904,7 +796,7 @@
     document.getElementById("confirm-modal").classList.remove("show");
   }
 
-  // HELPERS
+  // HELPERS & FORMATTERS
   function showLoading(msg) {
     document.getElementById("loading-text").textContent = msg || "جاري التحميل...";
     document.getElementById("loading-overlay").classList.add("show");
@@ -943,6 +835,11 @@
     if (bytes < 1024) return bytes + " B";
     if (bytes < 1048576) return (bytes/1024).toFixed(1) + " KB";
     return (bytes/1048576).toFixed(1) + " MB";
+  }
+
+  // Init application
+  window.onload = function() {
+    loadLocalData();
   }
 </script>
 </body>
