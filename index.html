@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فُرقان - منصة القياس</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Tajawal', sans-serif; background: #0f1923; color: #e8edf2; min-height: 100vh; direction: rtl; }
+
+  #login-screen {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; background: #0f1923;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100;
+  }
+  .login-card {
+    background: #182330; border: 1px solid #1e3248;
+    border-radius: 16px; padding: 3rem 2.5rem; width: 380px; text-align: center;
+  }
+  .logo-box { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 2rem; }
+  .logo-img { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; }
+  .logo-text { font-size: 28px; font-weight: 800; color: #4ea8de; letter-spacing: -0.5px; }
+  .login-label { font-size: 14px; color: #8899aa; margin-bottom: 8px; text-align: right; }
+  .pin-input {
+    width: 100%; padding: 12px 16px; border-radius: 10px;
+    border: 1px solid #1e3248; background: #0f1923; color: #e8edf2;
+    font-family: 'Tajawal', sans-serif; font-size: 18px; text-align: center;
+    letter-spacing: 4px; margin-bottom: 1.5rem; outline: none;
+  }
+  .pin-input:focus { border-color: #4ea8de; }
+  .btn-login {
+    width: 100%; padding: 12px; background: #4ea8de; color: #0f1923;
+    border: none; border-radius: 10px; font-family: 'Tajawal', sans-serif;
+    font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-login:hover { background: #6bb8e6; }
+  .login-error { color: #e05555; font-size: 13px; margin-top: 10px; display: none; }
+
+  #app { display: none; flex-direction: column; min-height: 100vh; }
+
+  .topbar {
+    background: #182330; border-bottom: 1px solid #1e3248;
+    padding: 0 2rem; height: 64px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 10px; }
+  .topbar-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; }
+  .topbar-title { font-size: 20px; font-weight: 800; color: #4ea8de; }
+  .sync-indicator { font-size: 12px; color: #8899aa; display: flex; align-items: center; gap: 6px; }
+  .btn-logout {
+    background: transparent; border: 1px solid #1e3248; color: #8899aa;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
+    font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+  }
+  .btn-logout:hover { border-color: #e05555; color: #e05555; }
+
+  .main { padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+  #dashboard { display: block; }
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+  .dash-card {
+    background: #182330; border: 1px solid #1e3248; border-radius: 16px;
+    padding: 1.5rem; cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .dash-card:hover { border-color: #4ea8de; transform: translateY(-2px); }
+  .dash-icon { font-size: 36px; margin-bottom: 12px; }
+  .dash-card-title { font-size: 17px; font-weight: 700; color: #e8edf2; margin-bottom: 4px; }
+  .dash-card-sub { font-size: 13px; color: #8899aa; }
+  .dash-card-count { margin-top: 10px; font-size: 22px; font-weight: 800; color: #4ea8de; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+  .btn-back {
+    background: transparent; border: 1px solid #1e3248; color: #8899aa;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
+    font-size: 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-back:hover { border-color: #4ea8de; color: #4ea8de; }
+  .section-title { font-size: 22px; font-weight: 800; color: #e8edf2; }
+
+  .upload-box {
+    background: #182330; border: 1.5px dashed #1e3248; border-radius: 14px;
+    padding: 2rem; margin-bottom: 1.5rem;
+  }
+  .upload-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+  .tab-btn {
+    flex: 1; padding: 10px; border-radius: 8px; font-family: 'Tajawal', sans-serif;
+    font-size: 14px; cursor: pointer; border: 1px solid #1e3248; background: transparent;
+    color: #8899aa; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .tab-btn.active { background: #4ea8de; color: #0f1923; border-color: #4ea8de; font-weight: 700; }
+  .upload-pane { display: none; }
+  .upload-pane.active { display: block; }
+  .file-drop {
+    border: 1.5px dashed #1e3248; border-radius: 10px; padding: 2rem; text-align: center;
+    color: #8899aa; cursor: pointer; transition: border-color 0.2s;
+  }
+  .file-drop:hover { border-color: #4ea8de; }
+  .file-drop i { font-size: 32px; display: block; margin-bottom: 8px; }
+  .url-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .url-input {
+    flex: 1; min-width: 180px; padding: 10px 14px; border-radius: 8px; border: 1px solid #1e3248;
+    background: #0f1923; color: #e8edf2; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+  }
+  .url-input:focus { border-color: #4ea8de; }
+  .url-name-input {
+    padding: 10px 14px; width: 180px; border-radius: 8px; border: 1px solid #1e3248;
+    background: #0f1923; color: #e8edf2; font-family: 'Tajawal', sans-serif; font-size: 14px; outline: none;
+  }
+  .btn-add {
+    padding: 10px 18px; background: #4ea8de; color: #0f1923; border: none;
+    border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 14px;
+    font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-add:hover { background: #6bb8e6; }
+  .btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
+  .hidden-file { display: none; }
+
+  .files-list { display: flex; flex-direction: column; gap: 10px; }
+  .file-item {
+    background: #182330; border: 1px solid #1e3248; border-radius: 10px;
+    padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .file-item-icon { font-size: 22px; color: #4ea8de; flex-shrink: 0; }
+  .file-item-info { flex: 1; min-width: 0; }
+  .file-item-name { font-size: 14px; font-weight: 600; color: #e8edf2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-item-meta { font-size: 12px; color: #8899aa; margin-top: 2px; }
+  .status-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+  .tag-url { background: #1a3a2a; color: #4ade80; }
+  .tag-file { background: #1e2a3a; color: #60a5fa; }
+  .btn-open { padding: 6px 12px; border-radius: 6px; border: 1px solid #1e3248; background: transparent; color: #4ea8de; font-family: 'Tajawal', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
+  .btn-open:hover { background: #1e3248; }
+  .btn-del { padding: 6px 10px; border-radius: 6px; border: 1px solid #e05555; background: transparent; color: #e05555; cursor: pointer; font-size: 14px; transition: all 0.2s; flex-shrink: 0; }
+  .btn-del:hover { background: #e05555; color: white; }
+
+  .empty-state { text-align: center; padding: 3rem; color: #8899aa; }
+  .empty-state i { font-size: 40px; display: block; margin-bottom: 10px; }
+
+  .sheet-banner {
+    background: #182330; border: 1px solid #1e5c2a; border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 1.5rem; display: flex; align-items: center;
+    gap: 10px; font-size: 13px; color: #4ade80;
+  }
+  .sheet-banner i { font-size: 18px; flex-shrink: 0; }
+
+  .loading-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15,25,35,0.85); z-index: 200;
+    display: none; align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 40px; height: 40px; border: 3px solid #1e3248;
+    border-top-color: #4ea8de; border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 14px; color: #8899aa; }
+
+  .notif {
+    position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+    background: #1a3a2a; border: 1px solid #4ade80; color: #4ade80;
+    padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    z-index: 999; display: none; white-space: nowrap;
+  }
+  .notif.err { background: #3a1a1a; border-color: #e05555; color: #e05555; }
+
+  /* CUSTOM MODAL CSS */
+  .custom-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 15, 20, 0.8); display: flex; align-items: center;
+    justify-content: center; z-index: 1000; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
+  .custom-modal.show { opacity: 1; pointer-events: auto; }
+  .modal-content {
+    background: #182330; border: 1px solid #1e3248; border-radius: 16px;
+    padding: 2rem; max-width: 450px; width: 90%; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 1rem; color: #e8edf2; }
+  .modal-text { font-size: 14px; color: #8899aa; margin-bottom: 1.5rem; line-height: 1.6; }
+  .modal-buttons { display: flex; justify-content: center; gap: 12px; }
+  .btn-modal-confirm {
+    background: #e05555; color: white; border: none; padding: 10px 20px;
+    border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: 700;
+  }
+  .btn-modal-cancel {
+    background: #1e3248; color: #e8edf2; border: 1px solid #2e435a; padding: 10px 20px;
+    border-radius: 8px; cursor: pointer; font-family: 'Tajawal', sans-serif;
+  }
+  .btn-modal-confirm:hover { background: #f06666; }
+  .btn-modal-cancel:hover { background: #263e58; }
+</style>
+</head>
+<body>
+
+<div id="notif" class="notif"></div>
+<div id="loading-overlay" class="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">جاري التحميل...</div>
+</div>
+
+<!-- CUSTOM CONFIRM MODAL -->
+<div id="confirm-modal" class="custom-modal">
+  <div class="modal-content">
+    <div class="modal-title" id="confirm-title">تأكيد الإجراء</div>
+    <div class="modal-text" id="confirm-text">هل أنت متأكد من رغبتك في حذف هذا العنصر؟</div>
+    <div class="modal-buttons">
+      <button class="btn-modal-confirm" id="confirm-yes-btn">حذف</button>
+      <button class="btn-modal-cancel" onclick="closeConfirmModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="logo-box">
+      <img src="https://pbs.twimg.com/profile_images/1573906872956063745/3LnHPkhq_400x400.png" class="logo-img" alt="فرقان">
+      <span class="logo-text">فُرقان</span>
+    </div>
+    <p style="font-size:14px;color:#8899aa;margin-bottom:1.5rem;">منصة القياس والمتابعة</p>
+    <div class="login-label">الرقم السري</div>
+    <input type="password" id="pin-field" class="pin-input" maxlength="6" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-login" onclick="doLogin()">دخول</button>
+    <p id="login-err" class="login-error">❌ الرقم السري غير صحيح</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="https://pbs.twimg.com/profile_images/1573906872956063745/3LnHPkhq_400x400.png" class="topbar-logo" alt="فرقان">
+      <span class="topbar-title">فُرقان — منصة القياس</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="sync-indicator" id="sync-status">
+        <i class="ti ti-circle-dot" style="color:#e05555; animation: pulse 1.5s infinite;"></i> جاري التحميل...
+      </span>
+      <button class="btn-logout" onclick="logout()"><i class="ti ti-logout"></i> خروج</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+      <p style="font-size:14px;color:#8899aa;margin-bottom:1.5rem;">مرحباً — اختر القسم المطلوب لتبدأ المزامنة الحية</p>
+
+      <div class="sheet-banner">
+        <i class="ti ti-cloud-check"></i>
+        <span id="banner-text">البيانات متزامنة سحابياً بشكل لحظي — أي تعديل يظهر فوراً للطرف الآخر دون تحديث</span>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card" onclick="openSection('bataqat')">
+          <div class="dash-icon">📋</div>
+          <div class="dash-card-title">بطاقات القياس</div>
+          <div class="dash-card-sub">رفع وإدارة بطاقات التقييم</div>
+          <div class="dash-card-count" id="count-bataqat">0 عنصر</div>
+        </div>
+        <div class="dash-card" onclick="openSection('natayij')">
+          <div class="dash-icon">📊</div>
+          <div class="dash-card-title">نتائج القياس</div>
+          <div class="dash-card-sub">عرض وأرشفة النتائج</div>
+          <div class="dash-card-count" id="count-natayij">0 عنصر</div>
+        </div>
+        <div class="dash-card" onclick="openSection('mutabaa')">
+          <div class="dash-icon">🔄</div>
+          <div class="dash-card-title">نظام المتابعة</div>
+          <div class="dash-card-sub">متابعة الأداء والتقدم</div>
+          <div class="dash-card-count" id="count-mutabaa">0 عنصر</div>
+        </div>
+        <div class="dash-card" onclick="openSection('irsaal')">
+          <div class="dash-icon">📤</div>
+          <div class="dash-card-title">الإرسال والتواصل</div>
+          <div class="dash-card-sub">إرسال الملفات والروابط</div>
+          <div class="dash-card-count" id="count-irsaal">0 عنصر</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTIONS -->
+    <div id="sec-bataqat" class="section">
+      <div class="section-header">
+        <button class="btn-back" onclick="goBack()"><i class="ti ti-arrow-right"></i> رجوع</button>
+        <span class="section-title">📋 بطاقات القياس</span>
+      </div>
+      <div id="content-bataqat"></div>
+    </div>
+    <div id="sec-natayij" class="section">
+      <div class="section-header">
+        <button class="btn-back" onclick="goBack()"><i class="ti ti-arrow-right"></i> رجوع</button>
+        <span class="section-title">📊 نتائج القياس</span>
+      </div>
+      <div id="content-natayij"></div>
+    </div>
+    <div id="sec-mutabaa" class="section">
+      <div class="section-header">
+        <button class="btn-back" onclick="goBack()"><i class="ti ti-arrow-right"></i> رجوع</button>
+        <span class="section-title">🔄 نظام المتابعة</span>
+      </div>
+      <div id="content-mutabaa"></div>
+    </div>
+    <div id="sec-irsaal" class="section">
+      <div class="section-header">
+        <button class="btn-back" onclick="goBack()"><i class="ti ti-arrow-right"></i> رجوع</button>
+        <span class="section-title">📤 الإرسال والتواصل</span>
+      </div>
+      <div id="content-irsaal"></div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="global-file-input" class="hidden-file" multiple>
+
+<!-- FIREBASE INTEGRATION SCRIPT -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // Safe Config Parser
+  const appId = typeof __app_id !== 'undefined' ? __app_id : 'furqan-measuring-platform-realtime';
+  let firebaseConfig = null;
+  let useLocalFallback = false;
+
+  try {
+    if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+      firebaseConfig = JSON.parse(__firebase_config);
+    } else {
+      useLocalFallback = true;
+    }
+  } catch (e) {
+    console.warn("Firebase configuration not available, using local mode fallback.", e);
+    useLocalFallback = true;
+  }
+
+  // App State
+  let currentUser = null;
+  let itemsList = []; 
+  const SECTIONS = ["bataqat", "natayij", "mutabaa", "irsaal"];
+  let uploadTab = {};
+  const PIN = "1234"; // الرقم السري للمنصة
+
+  // Export functions to window immediately so login/actions never block or crash
+  window.doLogin = doLogin;
+  window.logout = logout;
+  window.openSection = openSection;
+  window.goBack = goBack;
+  window.setTab = setTab;
+  window.triggerFileUpload = triggerFileUpload;
+  window.addUrl = addUrl;
+  window.deleteItem = deleteItem;
+  window.downloadFile = downloadFile;
+  window.closeConfirmModal = closeConfirmModal;
+
+  // Initialize Firebase if config exists
+  let db = null;
+  let auth = null;
+
+  if (!useLocalFallback && firebaseConfig) {
+    try {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+
+      // Authenticate
+      initAuth();
+      onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        if (user) {
+          updateSyncStatus(true);
+          subscribeToItems();
+        } else {
+          updateSyncStatus(false);
+        }
+      });
+    } catch (err) {
+      console.error("Firebase init failed, switching to local mode", err);
+      useLocalFallback = true;
+      updateSyncStatus(false);
+      loadLocalData();
+    }
+  } else {
+    // Immediate Local Setup
+    setTimeout(() => {
+      updateSyncStatus(false);
+      loadLocalData();
+    }, 100);
+  }
+
+  async function initAuth() {
+    try {
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+    } catch (err) {
+      console.error("Auth failed", err);
+      useLocalFallback = true;
+      updateSyncStatus(false);
+      loadLocalData();
+    }
+  }
+
+  // Firestore Realtime Subscription
+  function subscribeToItems() {
+    if (!currentUser || useLocalFallback || !db) return;
+
+    const publicCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'furqan_items');
+
+    onSnapshot(publicCollectionRef, (snapshot) => {
+      itemsList = [];
+      snapshot.forEach((doc) => {
+        itemsList.push({ id: doc.id, ...doc.data() });
+      });
+
+      itemsList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      updateCounts();
+      if (window.currentSectionName) {
+        renderSection(window.currentSectionName);
+      }
+    }, (error) => {
+      console.error("Firestore sync error, fallback to local:", error);
+      useLocalFallback = true;
+      updateSyncStatus(false);
+      loadLocalData();
+    });
+  }
+
+  function loadLocalData() {
+    const saved = localStorage.getItem("furqan_local_items");
+    if (saved) {
+      try {
+        itemsList = JSON.parse(saved);
+      } catch (e) {
+        itemsList = [];
+      }
+    } else {
+      itemsList = [];
+    }
+    updateCounts();
+    if (window.currentSectionName) {
+      renderSection(window.currentSectionName);
+    }
+  }
+
+  function saveLocalData() {
+    localStorage.setItem("furqan_local_items", JSON.stringify(itemsList));
+  }
+
+  function updateSyncStatus(connected) {
+    const statusEl = document.getElementById("sync-status");
+    const bannerEl = document.getElementById("banner-text");
+    if (connected && !useLocalFallback) {
+      statusEl.innerHTML = `<i class="ti ti-circle-check" style="color:#4ade80"></i> متصل بالسحابة · مزامنة لحظية نشطة`;
+      if (bannerEl) bannerEl.textContent = "البيانات متزامنة سحابياً بشكل لحظي — أي تعديل يظهر فوراً للطرف الآخر دون تحديث";
+    } else {
+      statusEl.innerHTML = `<i class="ti ti-device-sd-card" style="color:#e2a854"></i> وضع المعاينة اللامركزي نشط (حفظ محلي)`;
+      if (bannerEl) bannerEl.textContent = "يعمل النظام حالياً في وضع الحفظ الذاتي للمتصفح التجريبي";
+    }
+  }
+
+  // Helper to convert Eastern Arabic digits (١٢٣٤) to Western digits (1234)
+  function normalizeDigits(str) {
+    return str.replace(/[٠-٩]/g, function(d) {
+      return d.charCodeAt(0) - 1632;
+    }).replace(/[۰-۹]/g, function(d) {
+      return d.charCodeAt(0) - 1776;
+    });
+  }
+
+  // LOGIN SCREEN LOGIC
+  function doLogin() {
+    const rawVal = document.getElementById("pin-field").value;
+    const fieldVal = normalizeDigits(rawVal.trim());
+    
+    if (fieldVal === PIN) {
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("app").style.display = "flex";
+      showNotif("✅ مرحباً بك في منصة فُرقان");
+    } else {
+      document.getElementById("login-err").style.display = "block";
+      document.getElementById("pin-field").value = "";
+    }
+  }
+
+  function logout() {
+    document.getElementById("login-screen").style.display = "flex";
+    document.getElementById("app").style.display = "none";
+    document.getElementById("pin-field").value = "";
+    document.getElementById("login-err").style.display = "none";
+    goBack();
+  }
+
+  // NAVIGATION
+  function openSection(name) {
+    document.getElementById("dashboard").style.display = "none";
+    SECTIONS.forEach(s => document.getElementById("sec-"+s).classList.remove("active"));
+    document.getElementById("sec-"+name).classList.add("active");
+    window.currentSectionName = name;
+    renderSection(name);
+  }
+
+  function goBack() {
+    document.getElementById("dashboard").style.display = "block";
+    SECTIONS.forEach(s => document.getElementById("sec-"+s).classList.remove("active"));
+    window.currentSectionName = null;
+    updateCounts();
+  }
+
+  // UPDATE COUNTS
+  function updateCounts() {
+    SECTIONS.forEach(s => {
+      const el = document.getElementById("count-"+s);
+      const filteredCount = itemsList.filter(item => item.section === s).length;
+      if (el) el.textContent = filteredCount + " عنصر";
+    });
+  }
+
+  // RENDER INTERFACES
+  function renderSection(name) {
+    const container = document.getElementById("content-"+name);
+    const sectionItems = itemsList.filter(item => item.section === name);
+    const curTab = uploadTab[name] || "file";
+
+    container.innerHTML = `
+      <div class="upload-box">
+        <div class="upload-tabs">
+          <button class="tab-btn ${curTab==='file'?'active':''}" onclick="setTab('${name}','file')">
+            <i class="ti ti-upload"></i> رفع ملف من الجهاز
+          </button>
+          <button class="tab-btn ${curTab==='url'?'active':''}" onclick="setTab('${name}','url')">
+            <i class="ti ti-link"></i> إضافة رابط
+          </button>
+        </div>
+        <div class="upload-pane ${curTab==='file'?'active':''}">
+          <div class="file-drop" onclick="triggerFileUpload('${name}')">
+            <i class="ti ti-cloud-upload"></i>
+            <span>اضغط لاختيار ملف أو اسحب وأفلت هنا</span><br>
+            <span style="font-size:12px;color:#8899aa;margin-top:4px;display:block">يدعم جميع أنواع الملفات حتى 800 كيلوبايت</span>
+          </div>
+        </div>
+        <div class="upload-pane ${curTab==='url'?'active':''}">
+          <div class="url-row">
+            <input type="text" id="url-name-${name}" class="url-name-input" placeholder="اسم الرابط">
+            <input type="text" id="url-val-${name}" class="url-input" placeholder="https://...">
+            <button class="btn-add" id="btn-addurl-${name}" onclick="addUrl('${name}')">
+              <i class="ti ti-plus"></i> إضافة الرابط
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="files-list" id="list-${name}">
+        ${sectionItems.length === 0
+          ? `<div class="empty-state"><i class="ti ti-inbox"></i>لا توجد ملفات أو روابط مضافة هنا بعد</div>`
+          : sectionItems.map((item, i) => renderItemHTML(name, item)).join("")}
+      </div>
+    `;
+  }
+
+  function renderItemHTML(sectionName, item) {
+    const isUrl = item.type === "url";
+    const icon = isUrl ? "ti-link" : getFileIcon(item.name);
+    const tag = isUrl
+      ? `<span class="status-tag tag-url">رابط سحابي</span>`
+      : `<span class="status-tag tag-file">ملف متزامن</span>`;
+    
+    const openBtn = isUrl
+      ? `<button class="btn-open" onclick="window.open('${escHtml(item.url)}','_blank')"><i class="ti ti-external-link"></i> فتح الرابط</button>`
+      : (item.dataUrl
+          ? `<button class="btn-open" onclick="downloadFile('${item.id}')"><i class="ti ti-download"></i> تنزيل الملف</button>`
+          : `<button class="btn-open" disabled style="opacity:0.4">غير متوفر</button>`);
+
+    return `
+      <div class="file-item" id="item-${item.id}">
+        <i class="ti ${icon} file-item-icon"></i>
+        <div class="file-item-info">
+          <div class="file-item-name" title="${escHtml(item.name)}">${escHtml(item.name)}</div>
+          <div class="file-item-meta">${tag} ${item.date||""} ${item.size ? '· '+item.size : ''}</div>
+        </div>
+        ${openBtn}
+        <button class="btn-del" onclick="deleteItem('${sectionName}', '${item.id}')"><i class="ti ti-trash"></i></button>
+      </div>
+    `;
+  }
+
+  function setTab(name, tab) {
+    uploadTab[name] = tab;
+    renderSection(name);
+  }
+
+  // FILE UPLOAD HANDLER
+  function triggerFileUpload(name) {
+    const inp = document.getElementById("global-file-input");
+    inp.value = "";
+    inp.onchange = (e) => handleFiles(name, e.target.files);
+    inp.click();
+  }
+
+  async function handleFiles(sectionName, files) {
+    const file = files[0];
+    if (!file) return;
+
+    if (file.size > 800 * 1024) {
+      showCustomAlertModal("الملف كبير جداً!", "حجم الملف يتعدى الحد الأقصى للمزامنة اللحظية (800KB). لضمان الأداء السريع وسرعة المزامنة بين الأجهزة، يُفضل رفع الملف على Google Drive ومشاركة الرابط في قسم 'إضافة رابط'.");
+      return;
+    }
+
+    showLoading("جاري تشفير ورفع الملف...");
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const itemId = Date.now() + "_" + Math.random().toString(36).slice(2);
+        const itemData = {
+          id: itemId,
+          section: sectionName,
+          type: "file",
+          name: file.name,
+          size: formatSize(file.size),
+          date: new Date().toLocaleDateString("ar-SA"),
+          dataUrl: e.target.result,
+          createdAt: Date.now()
+        };
+
+        if (!useLocalFallback && db && currentUser) {
+          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'furqan_items', itemId);
+          await setDoc(docRef, itemData);
+        } else {
+          itemsList.unshift(itemData);
+          saveLocalData();
+          updateCounts();
+          renderSection(sectionName);
+        }
+
+        hideLoading();
+        showNotif("✅ تم حفظ الملف بنجاح!");
+      } catch (err) {
+        console.error("Error saving file:", err);
+        hideLoading();
+        showNotif("⚠️ حدث خطأ أثناء حفظ الملف", true);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // URL ADDER
+  async function addUrl(sectionName) {
+    const urlVal = document.getElementById("url-val-"+sectionName).value.trim();
+    const urlName = document.getElementById("url-name-"+sectionName).value.trim() || urlVal;
+    
+    if (!urlVal) { 
+      showNotif("❌ الرجاء إدخال الرابط أولاً", true); 
+      return; 
+    }
+
+    let verifiedUrl = urlVal;
+    if (!/^https?:\/\//i.test(urlVal)) {
+      verifiedUrl = 'https://' + urlVal;
+    }
+
+    showLoading("جاري إضافة الرابط السحابي...");
+
+    try {
+      const itemId = Date.now() + "_" + Math.random().toString(36).slice(2);
+      const itemData = {
+        id: itemId,
+        section: sectionName,
+        type: "url",
+        name: urlName,
+        url: verifiedUrl,
+        date: new Date().toLocaleDateString("ar-SA"),
+        createdAt: Date.now()
+      };
+
+      if (!useLocalFallback && db && currentUser) {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'furqan_items', itemId);
+        await setDoc(docRef, itemData);
+      } else {
+        itemsList.unshift(itemData);
+        saveLocalData();
+        updateCounts();
+        renderSection(sectionName);
+      }
+
+      hideLoading();
+      showNotif("✅ تم إضافة الرابط بنجاح!");
+      
+      document.getElementById("url-val-"+sectionName).value = "";
+      document.getElementById("url-name-"+sectionName).value = "";
+    } catch (err) {
+      console.error("Error saving URL:", err);
+      hideLoading();
+      showNotif("⚠️ حدث خطأ أثناء حفظ الرابط", true);
+    }
+  }
+
+  // DELETE HANDLER
+  function deleteItem(sectionName, itemId) {
+    showConfirmModal(
+      "تأكيد الحذف",
+      "هل أنت متأكد من رغبتك في حذف هذا العنصر؟ سيتم إزالته نهائياً بشكل فوري.",
+      async () => {
+        closeConfirmModal();
+        showLoading("جاري الحذف...");
+        try {
+          if (!useLocalFallback && db && currentUser) {
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'furqan_items', itemId);
+            await deleteDoc(docRef);
+          } else {
+            itemsList = itemsList.filter(x => x.id !== itemId);
+            saveLocalData();
+            updateCounts();
+            renderSection(sectionName);
+          }
+          hideLoading();
+          showNotif("🗑 تم حذف العنصر بنجاح");
+        } catch (err) {
+          console.error("Error deleting item:", err);
+          hideLoading();
+          showNotif("⚠️ فشل الحذف", true);
+        }
+      }
+    );
+  }
+
+  // DOWNLOAD HANDLER
+  function downloadFile(itemId) {
+    const item = itemsList.find(x => x.id === itemId);
+    if (!item || !item.dataUrl) return;
+    const a = document.createElement("a");
+    a.href = item.dataUrl;
+    a.download = item.name;
+    a.click();
+  }
+
+  // CUSTOM DIALOG & MODAL LOGIC
+  function showConfirmModal(title, text, onConfirm) {
+    document.getElementById("confirm-title").textContent = title;
+    document.getElementById("confirm-text").textContent = text;
+    
+    const confirmBtn = document.getElementById("confirm-yes-btn");
+    confirmBtn.className = "btn-modal-confirm";
+    confirmBtn.textContent = "تأكيد الحذف";
+    confirmBtn.onclick = onConfirm;
+
+    document.getElementById("confirm-modal").classList.add("show");
+  }
+
+  function showCustomAlertModal(title, text) {
+    document.getElementById("confirm-title").textContent = title;
+    document.getElementById("confirm-text").textContent = text;
+    
+    const confirmBtn = document.getElementById("confirm-yes-btn");
+    confirmBtn.textContent = "حسناً فهمت";
+    confirmBtn.className = "btn-modal-cancel";
+    confirmBtn.onclick = closeConfirmModal;
+
+    document.getElementById("confirm-modal").classList.add("show");
+  }
+
+  function closeConfirmModal() {
+    document.getElementById("confirm-modal").classList.remove("show");
+  }
+
+  // HELPERS
+  function showLoading(msg) {
+    document.getElementById("loading-text").textContent = msg || "جاري التحميل...";
+    document.getElementById("loading-overlay").classList.add("show");
+  }
+  
+  function hideLoading() {
+    document.getElementById("loading-overlay").classList.remove("show");
+  }
+
+  function showNotif(msg, isErr) {
+    const n = document.getElementById("notif");
+    n.textContent = msg;
+    n.className = "notif" + (isErr ? " err" : "");
+    n.style.display = "block";
+    setTimeout(() => n.style.display = "none", 3000);
+  }
+
+  function escHtml(str) {
+    return (str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function getFileIcon(name) {
+    if (!name) return "ti-file";
+    const ext = name.split(".").pop().toLowerCase();
+    if (ext==="pdf") return "ti-file-type-pdf";
+    if (["doc","docx"].includes(ext)) return "ti-file-type-doc";
+    if (["xls","xlsx"].includes(ext)) return "ti-file-type-xls";
+    if (["png","jpg","jpeg","gif","webp"].includes(ext)) return "ti-photo";
+    if (["mp4","mov","avi","mkv"].includes(ext)) return "ti-video";
+    if (["zip","rar","7z"].includes(ext)) return "ti-file-zip";
+    if (["ppt","pptx"].includes(ext)) return "ti-presentation";
+    return "ti-file";
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1048576) return (bytes/1024).toFixed(1) + " KB";
+    return (bytes/1048576).toFixed(1) + " MB";
+  }
+</script>
+</body>
+</html>
